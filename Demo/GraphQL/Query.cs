@@ -9,4 +9,9 @@ public class Query
     {
         return bookService.GetBook();
     }
+
+    public List<Book> GetBooks([Service] BookService bookService)
+    {
+        return bookService.GetBooks();
+    }
 }
