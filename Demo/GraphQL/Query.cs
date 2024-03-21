@@ -1,18 +1,12 @@
-﻿using Demo.Models;
+﻿using Demo.BLL;
+using Demo.Models;
 
 namespace Demo.GraphQL;
 
 public class Query
 {
-    public Book GetBook()
+    public Book GetBook([Service] BookService bookService)
     {
-        return new Book
-        {
-            Title = "C# in depth.",
-            Author = new Author
-            {
-                Name = "Jon Skeet"
-            }
-        };
+        return bookService.GetBook();
     }
 }
