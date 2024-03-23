@@ -12,11 +12,8 @@ public class BookRepository
         {
             new Book
             {
-                Title = "C# in depth.",
-                Author = new Author
-                {
-                    Name = "Jon Skeet"
-                }
+                Id = 1,
+                Title = "C# in depth."
             }
         };
     }

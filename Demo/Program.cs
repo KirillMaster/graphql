@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<BookRepository>();
+builder.Services.AddSingleton<AuthorRepository>();
 builder.Services.AddTransient<BookService>();
 
 builder.Services
