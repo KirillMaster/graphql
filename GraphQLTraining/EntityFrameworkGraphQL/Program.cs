@@ -19,7 +19,9 @@ builder.Services
     .AddGraphQLServer()
     .RegisterDbContext<MyDbContext>(DbContextKind.Pooled)
     .AddQueryType<Query>()
-    .AddProjections();
+    .AddProjections()
+    .AddFiltering()
+    .AddSorting();
 
 var app = builder.Build();
 

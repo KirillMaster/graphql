@@ -16,6 +16,16 @@ public class Repository : IAsyncDisposable
         return dbContext.Products;
     }
     
+    public async Task<IEnumerable<Product>> GetProductsByIds(int[] ids)
+    {
+        return await dbContext.Products.Where(x => ids.Contains(x.Id)).ToArrayAsync();
+    }
+
+    public Product GetProduct(int id)
+    {
+        return dbContext.Products.First(x => x.Id == id);
+    }
+    
     public IQueryable<Customer> GetCustomers()
     {
         return dbContext.Customers;
