@@ -1,10 +1,11 @@
+using EntityFrameworkGraphQL.DAL;
 using EntityFrameworkGraphQL.GraphQL;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<MyDbContext>(
+builder.Services.AddPooledDbContextFactory<MyDbContext>(
     options => options
         .UseSqlServer("Data Source=(local);Min Pool Size=5;Max Pool Size=3000;Pooling=true;Initial Catalog=Demo;Integrated Security=True;TrustServerCertificate=True",
             b =>
@@ -12,10 +13,12 @@ builder.Services.AddDbContext<MyDbContext>(
                 b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
             }));
 
+builder.Services.AddTransient<Repository>();
+
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<Query>()
-    .RegisterDbContext<MyDbContext>();
+    .RegisterDbContext<MyDbContext>(DbContextKind.Pooled)
+    .AddQueryType<Query>();
 
 var app = builder.Build();
 
