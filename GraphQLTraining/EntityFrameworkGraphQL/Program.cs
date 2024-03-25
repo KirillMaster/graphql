@@ -18,7 +18,8 @@ builder.Services.AddTransient<Repository>();
 builder.Services
     .AddGraphQLServer()
     .RegisterDbContext<MyDbContext>(DbContextKind.Pooled)
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddProjections();
 
 var app = builder.Build();
 

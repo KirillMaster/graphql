@@ -43,8 +43,8 @@ public class Product
     public int Id { get; set; }
     public string Name { get; set; }
     public decimal Price { get; set; }
-    public List<Review> Reviews { get; set; }
-    public List<Customer> Customers { get; set; }
+    public virtual List<Review> Reviews { get; set; }
+    public virtual List<Customer> Customers { get; set; }
 }
 
 [Table("Customer", Schema = "dbo")]
@@ -53,8 +53,8 @@ public class Customer
     public int Id { get; set; }
     public string Name { get; set; }
     public int Age { get; set; }
-    public List<Review> Reviews { get; set; }
-    public List<Product> Products { get; set; }
+    public virtual List<Review> Reviews { get; set; }
+    public virtual List<Product> Products { get; set; }
 }
 
 [Table("Review", Schema = "dbo")]
@@ -64,16 +64,16 @@ public class Review
     public string Text { get; set; }
     public int Rating { get; set; }
     public int ProductId { get; set; }
-    public Product Product { get; set; }
+    public virtual Product Product { get; set; }
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; }
 }
 
 [Table("ProductCustomer", Schema = "dbo")]
 public class ProductCustomer
 {
     public int ProductId { get; set; }
-    public Product Product { get; set; }
+    public virtual Product Product { get; set; }
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; }
 }
