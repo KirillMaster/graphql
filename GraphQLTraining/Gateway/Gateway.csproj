@@ -7,4 +7,9 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0" />
+      <PackageReference Include="HotChocolate.Stitching.Redis" Version="13.0.0" />
+    </ItemGroup>
+
 </Project>

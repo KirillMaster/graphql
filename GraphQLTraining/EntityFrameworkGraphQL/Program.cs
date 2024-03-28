@@ -1,6 +1,7 @@
 using EntityFrameworkGraphQL.DAL;
 using EntityFrameworkGraphQL.GraphQL;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +16,19 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
 
 builder.Services.AddTransient<Repository>();
 
+builder.Services.AddSingleton(ConnectionMultiplexer.Connect("localhost:6379"));
+
 builder.Services
     .AddGraphQLServer()
     .RegisterDbContext<MyDbContext>(DbContextKind.Pooled)
     .AddQueryType<Query>()
     .AddProjections()
     .AddFiltering()
-    .AddSorting();
+    .AddSorting()
+    .PublishSchemaDefinition(c => c
+        .SetName("entityframework")
+        .PublishToRedis("Demo", 
+            sp => sp.GetRequiredService<ConnectionMultiplexer>()));
 
 var app = builder.Build();
 
