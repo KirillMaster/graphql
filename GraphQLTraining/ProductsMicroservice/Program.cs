@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProductsMicroservice;
 using StackExchange.Redis;
+using Tenengroup.CatalogProxy.Domain.Catalog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,8 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
             b =>
             {
                 b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-            }));
+            })
+        .UseLowerCaseNamingConvention());
 
 builder.Services.AddTransient<Repository>();
 

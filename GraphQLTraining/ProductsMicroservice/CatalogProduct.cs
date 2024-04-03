@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Tenengroup.CatalogProxy.Domain.Catalog;
 
 namespace ProductsMicroservice;
 
@@ -16,6 +17,8 @@ public class CatalogProduct
     public string CurrencyCode { get; set; }
     [Column("createdat")]
     public DateTimeOffset CreatedAt { get; set; }
+    [Column("datajson")]
+    public LocalProduct Product { get; set; }
     [Column("catalogversionid")]
     public long CatalogVersionId { get; set; }
     [Column("friendlyurl")]
