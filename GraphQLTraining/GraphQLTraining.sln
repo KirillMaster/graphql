@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkGraphQL", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{3D1DE4C8-CA34-4A91-AAE7-E7C65085C480}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsMicroservice", "ProductsMicroservice\ProductsMicroservice.csproj", "{3164975E-15B1-462F-8497-0F5B74BCCBAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3D1DE4C8-CA34-4A91-AAE7-E7C65085C480}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D1DE4C8-CA34-4A91-AAE7-E7C65085C480}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D1DE4C8-CA34-4A91-AAE7-E7C65085C480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3164975E-15B1-462F-8497-0F5B74BCCBAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3164975E-15B1-462F-8497-0F5B74BCCBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3164975E-15B1-462F-8497-0F5B74BCCBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3164975E-15B1-462F-8497-0F5B74BCCBAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

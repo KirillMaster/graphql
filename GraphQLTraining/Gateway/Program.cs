@@ -5,10 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 const string Books = "books";
 const string Entityframework = "entityframework";
+const string CatalogProduct = "catalogproduct";
 
 
 builder.Services.AddHttpClient(Books, c => c.BaseAddress = new Uri("http://localhost:5034/graphql"));
 builder.Services.AddHttpClient(Entityframework, c => c.BaseAddress = new Uri("http://localhost:5070/graphql"));
+builder.Services.AddHttpClient(CatalogProduct, c => c.BaseAddress = new Uri("http://localhost:5098/graphql"));
 
 builder.Services.AddSingleton(ConnectionMultiplexer.Connect("localhost:6379"));
 
