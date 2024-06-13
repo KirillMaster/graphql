@@ -1,0 +1,11 @@
+extend type User {
+    posts: [Post]
+}
+
+extend type Post {
+    user: User
+}
+
+type Query {
+    _sdl: String
+}
