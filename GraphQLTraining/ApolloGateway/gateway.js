@@ -17,8 +17,8 @@ class ErrorHandlingDataSource extends RemoteGraphQLDataSource {
 
 const gateway = new ApolloGateway({
     serviceList: [
-        { name: 'user', url: 'http://localhost:5250/graphql' },
-        { name: 'post', url: 'http://localhost:5100/graphql' },
+        { name: 'user', url: 'http://localhost:5187/graphql' },
+        { name: 'review', url: 'http://localhost:5019/graphql' },
     ],
     buildService({ name, url }) {
         return new ErrorHandlingDataSource({ url });

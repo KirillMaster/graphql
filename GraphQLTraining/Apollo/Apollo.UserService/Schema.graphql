@@ -1,0 +1,14 @@
+﻿type User @key(fields: "id") {
+    id: ID!
+    name: String!
+  #  reviews: [Review]
+}
+
+#extend type Review @key(fields: "id") @requires(fields: "userId") {
+#    id: ID! @external
+#    userId: Int! @external
+#}
+
+type Query {
+    user(id: ID!): User
+}
