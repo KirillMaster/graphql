@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using ProductsMicroservice;
 using StackExchange.Redis;
 using Tenengroup.CatalogProxy.Domain.Catalog;
@@ -16,7 +17,7 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
 
 builder.Services.AddTransient<Repository>();
 
-builder.Services.AddSingleton(ConnectionMultiplexer.Connect("localhost:6379"));
+//builder.Services.AddSingleton(ConnectionMultiplexer.Connect("localhost:6379"));
 
 builder.Services
     .AddGraphQLServer()
@@ -24,14 +25,16 @@ builder.Services
     .AddQueryType<Query>()
     .AddProjections()
     .AddFiltering()
-    .AddSorting()
-    .PublishSchemaDefinition(c => c
-        .SetName("catalogproduct")
-        .PublishToRedis("Demo", 
-            sp => sp.GetRequiredService<ConnectionMultiplexer>()));
+    .AddSorting();
+    // .PublishSchemaDefinition(c => c
+    //     .SetName("catalogproduct")
+    //     .PublishToRedis("Demo", 
+    //         sp => sp.GetRequiredService<ConnectionMultiplexer>()));
 
 var app = builder.Build();
 
 app.MapGraphQL();
 
+
 app.Run();
+
