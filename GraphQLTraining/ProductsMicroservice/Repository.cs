@@ -24,12 +24,7 @@ public class Repository
     {
         return dbContext.ProductsSliced.Where(x => x.Sku == sku).Take(100);
     }
-
-
-    public IQueryable<CustomersContext.Customer> GetCustomers(int count)
-    {
-        return dbContext.Customers.Take(count);
-    }
+    
     public object Test()
     {
         return null;

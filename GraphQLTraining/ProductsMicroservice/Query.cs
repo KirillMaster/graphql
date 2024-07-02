@@ -14,14 +14,8 @@ public class Query
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced([Service] Repository repository, string currency)
+    public IQueryable<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced([Service] Repository repository, string sku)
     {
-        return repository.GetSlicedProducts(currency);
+        return repository.GetSlicedProducts(sku);
     }
-
-    public IQueryable<CustomersContext.Customer> Customers([Service] Repository repository, int count)
-    {
-        return repository.GetCustomers(count);
-    }
-
 }
