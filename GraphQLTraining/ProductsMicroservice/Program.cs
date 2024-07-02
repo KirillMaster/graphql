@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Newtonsoft.Json;
 using ProductsMicroservice;
+using ProductsMicroservice.FullRelational;
 using StackExchange.Redis;
-using Tenengroup.CatalogProxy.Domain.Catalog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
             b =>
             {
                 b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             })
         .UseLowerCaseNamingConvention());
 
@@ -34,6 +36,12 @@ builder.Services
 var app = builder.Build();
 
 app.MapGraphQL();
+
+
+// var repo = app.Services.GetService<Repository>();
+// repo.Insert();
+
+
 
 
 app.Run();

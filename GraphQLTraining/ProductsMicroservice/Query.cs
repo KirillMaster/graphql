@@ -1,27 +1,29 @@
-﻿namespace ProductsMicroservice;
+﻿using ProductsMicroservice.FullRelational;
+
+namespace ProductsMicroservice;
 
 public class Query
 {
-   // [UsePaging(DefaultPageSize = 40)]
-    // [UseProjection]
-    // [UseFiltering]
-    // [UseSorting]
-    // public IQueryable<CatalogProduct> CatalogProducts([Service] Repository repository, int count)
-    // {
-    //     return repository.GetProducts(count);
-    // }
-    //
+    //   [UsePaging(DefaultPageSize = 40)]
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced([Service] Repository repository, string currency)
+    public IQueryable<Product> CatalogProducts([Service] Repository repository, string sku)
     {
-        return repository.GetSlicedProducts(currency);
+        return repository.GetProducts().Where(x => x.Sku == sku);
     }
+    
+    // [UseProjection]
+    // [UseFiltering]
+    // [UseSorting]
+    // public IQueryable<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced([Service] Repository repository, string currency)
+    // {
+    //     return repository.GetSlicedProducts(currency);
+    // }
 
-    public IQueryable<CustomersContext.Customer> Customers([Service] Repository repository, int count)
-    {
-        return repository.GetCustomers(count);
-    }
+    // public IQueryable<CustomersContext.Customer> Customers([Service] Repository repository, int count)
+    // {
+    //     return repository.GetCustomers(count);
+    // }
 
 }

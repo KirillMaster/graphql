@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using Tenengroup.CatalogProxy.Domain.Catalog;
 
 namespace ProductsMicroservice;
 

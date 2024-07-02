@@ -1,0 +1,887 @@
+{
+    "Type": "other",
+    "VersionId": 3650723000,
+    "UpdatedAt": "2024-04-18T09:37:11.992+00:00",
+    "OnlineDate": "2022-08-15T06:22:00+00:00",
+    "Family": {
+        "Id": 2601,
+        "Name": "Other"
+    },
+    "ProductionInfo": {
+        "IsNonEnglishInscription": false,
+        "BoxSize": {
+            "Id": 15,
+            "Name": "Not relevant"
+        },
+        "Weight": 10,
+        "ProductSizeHsCode": null,
+        "ProductSize": "Not relevant",
+        "SupplierProductId": "700",
+        "SupplierId": 700
+    },
+    "Url": "https:\/\/www.myka.com\/Product.aspx?p=8538",
+    "Name": "Music Memories Custom Canvas",
+    "Categories": [
+        {
+            "Id": 391,
+            "Name": "Step 1 - Write your Song Title - Artist Name<br \/>We'll add the lyrics!<a class=\"ProductGlossary ringGuide_link\" data-articleid=\"914\"><span>Personalization guide<\/span><div class=\"clr\"><\/div><\/a><span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. All of me - John Legend<\/span>",
+            "CartName": "Your song:",
+            "EnglishName": "Step 1: Write your song title <em>(We'll design it for you)<\/em><span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. All of me<\/span>",
+            "EnglishCartName": "Your song:",
+            "Order": 0,
+            "IsRequired": false,
+            "IsActive": true,
+            "DisplayType": "default",
+            "Type": "text",
+            "Labels": [],
+            "Options": [],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_391_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 392,
+            "Name": "Step 2 - Name this Memory<br \/><span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. The moment we met <\/span>",
+            "CartName": "Your title:",
+            "EnglishName": "Step 3: Name this memory <span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. The moment we met <\/span>",
+            "EnglishCartName": "Your title:",
+            "Order": 1,
+            "IsRequired": false,
+            "IsActive": true,
+            "DisplayType": "default",
+            "Type": "text",
+            "Labels": [],
+            "Options": [],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_392_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 394,
+            "Name": "Step 3: Write your name(s)<span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. yours, Sofie <\/span>",
+            "CartName": "Your name(s):",
+            "EnglishName": "Step 4: Write your names or a special date<span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. Ashley & Joe, 06.06.2021<\/span>",
+            "EnglishCartName": "Your name(s):",
+            "Order": 2,
+            "IsRequired": false,
+            "IsActive": true,
+            "DisplayType": "default",
+            "Type": "text",
+            "Labels": [],
+            "Options": [],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_394_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 430,
+            "Name": "Step 4 - Choose the Color of the Center",
+            "CartName": "Color:",
+            "EnglishName": "Step 5 - Choose the color of the center",
+            "EnglishCartName": "Color",
+            "Order": 3,
+            "IsRequired": false,
+            "IsActive": true,
+            "DisplayType": "text",
+            "Type": "selection",
+            "Labels": [
+                {
+                    "Id": 5,
+                    "Name": "Stones"
+                },
+                {
+                    "Id": 10,
+                    "Name": "Colors"
+                },
+                {
+                    "Id": 15,
+                    "Name": "SimplePhoto"
+                }
+            ],
+            "Options": [
+                {
+                    "Id": 310,
+                    "Name": "Orange",
+                    "CartName": "Orange",
+                    "EnglishName": "Orange",
+                    "EnglishCartName": "Orange",
+                    "IsDefault": true,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 0,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": false,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/orange.png-2.png"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 223,
+                    "Name": "Green",
+                    "CartName": "Green",
+                    "EnglishName": "Green",
+                    "EnglishCartName": "Green",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 1,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": false,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/green.jpg-2.jpg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 225,
+                    "Name": "Purple",
+                    "CartName": "Purple",
+                    "EnglishName": "Purple",
+                    "EnglishCartName": "Purple",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 2,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": false,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/purple.jpg-3.jpg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "visual"
+                },
+                {
+                    "Id": 224,
+                    "Name": "Yellow",
+                    "CartName": "Yellow",
+                    "EnglishName": "Yellow",
+                    "EnglishCartName": "Yellow",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 3,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": false,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/mustardyellow.jpg-2.jpg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "visual"
+                },
+                {
+                    "Id": 221,
+                    "Name": "Blue",
+                    "CartName": "Blue",
+                    "EnglishName": "Blue",
+                    "EnglishCartName": "Blue",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 4,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": false,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/blue.jpg-4.jpg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                }
+            ],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_430_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 331,
+            "Name": "Step 5 - Choose a Frame: <a class=\"ProductGlossary ringGuide_link\" data-articleid=\"915\"><span>Frame guide<\/span><div class=\"clr\"><\/div><\/a>",
+            "CartName": "Frame color:",
+            "EnglishName": "Step 2 - Choose a Frame:",
+            "EnglishCartName": "Frame color:",
+            "Order": 4,
+            "IsRequired": false,
+            "IsActive": true,
+            "DisplayType": "visual",
+            "Type": "selection",
+            "Labels": [
+                {
+                    "Id": 10,
+                    "Name": "Colors"
+                }
+            ],
+            "Options": [
+                {
+                    "Id": 1655,
+                    "Name": "No Frame",
+                    "CartName": "No Frame",
+                    "EnglishName": "No Frame",
+                    "EnglishCartName": "No Frame",
+                    "IsDefault": true,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 0,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/no_frame-3x.png-3.png"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 229,
+                    "Name": "Black",
+                    "CartName": "Black",
+                    "EnglishName": "Black",
+                    "EnglishCartName": "Black",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 1,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/black-3x.png-4.png"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 335,
+                    "Name": "White",
+                    "CartName": "White",
+                    "EnglishName": "White",
+                    "EnglishCartName": "White",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 2,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "digital-asset\/option-image\/white-3x.png-2.png"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                }
+            ],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_331_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 348,
+            "Name": "Step 6 - Choose a Size: <a class=\"ProductGlossary ringGuide_link\" data-articleid=\"916\"><span>Size guide<\/span><div class=\"clr\"><\/div><\/a>",
+            "CartName": "Art size:",
+            "EnglishName": "Step 3 - Choose a Size:",
+            "EnglishCartName": "Art size:",
+            "Order": 5,
+            "IsRequired": false,
+            "IsActive": true,
+            "DisplayType": "visual",
+            "Type": "selection",
+            "Labels": [
+                {
+                    "Id": 9,
+                    "Name": "Sizes"
+                }
+            ],
+            "Options": [
+                {
+                    "Id": 1436,
+                    "Name": "S - 9\" x 12\"",
+                    "CartName": "S - 9\" x 12\"",
+                    "EnglishName": "S - 9\" x 12\"",
+                    "EnglishCartName": "S - 9\" x 12\"",
+                    "IsDefault": true,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 0,
+                    "PriceAdjustment": 0,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/efa4f622cf5c485aa1676c9d0e02d3a1.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1437,
+                    "Name": "M - 12\" x 16\"",
+                    "CartName": "M - 12\" x 16\"",
+                    "EnglishName": "M - 12\" x 16\"",
+                    "EnglishCartName": "M - 12\" x 16\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 1,
+                    "PriceAdjustment": 10,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/bc224f953bfc4c679edf00631f14fe6c.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1438,
+                    "Name": "L - 18\" x 24\"",
+                    "CartName": "L - 18\" x 24\"",
+                    "EnglishName": "L - 18\" x 24\"",
+                    "EnglishCartName": "L - 18\" x 24\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 2,
+                    "PriceAdjustment": 30,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/de9d95ff14874bc1a798963a3319cdb2.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1439,
+                    "Name": "XL - 24\" x 32\"",
+                    "CartName": "XL - 24\" x 32\"",
+                    "EnglishName": "XL - 24\" x 32\"",
+                    "EnglishCartName": "XL - 24\" x 32\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 3,
+                    "PriceAdjustment": 65,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/60c02d984d7c4112a451cd8b4ca5b116.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1734,
+                    "Name": "XXL - 30\" x 40\"",
+                    "CartName": "XXL - 30\" x 40\"",
+                    "EnglishName": "XXL - 30\" x 40\"",
+                    "EnglishCartName": "XXL - 30\" x 40\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 4,
+                    "PriceAdjustment": 189,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/2a13fd0d8edf4599be4b230344f1b353.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                }
+            ],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_348_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 358,
+            "Name": "Step 6 - Choose a Size: <a class=\"ProductGlossary ringGuide_link\" data-articleid=\"916\"><span>Size guide<\/span><div class=\"clr\"><\/div><\/a>",
+            "CartName": "Size:",
+            "EnglishName": "Step 3 - Choose a Size:",
+            "EnglishCartName": "Size:",
+            "Order": 6,
+            "IsRequired": true,
+            "IsActive": true,
+            "DisplayType": "visual",
+            "Type": "selection",
+            "Labels": [
+                {
+                    "Id": 9,
+                    "Name": "Sizes"
+                }
+            ],
+            "Options": [
+                {
+                    "Id": 1436,
+                    "Name": "S - 9\" x 12\"",
+                    "CartName": "S - 9\" x 12\"",
+                    "EnglishName": "S - 9\" x 12\"",
+                    "EnglishCartName": "S - 9\" x 12\"",
+                    "IsDefault": true,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 1,
+                    "PriceAdjustment": 25,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/efa4f622cf5c485aa1676c9d0e02d3a1.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1437,
+                    "Name": "M - 12\" x 16\"",
+                    "CartName": "M - 12\" x 16\"",
+                    "EnglishName": "M - 12\" x 16\"",
+                    "EnglishCartName": "M - 12\" x 16\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 2,
+                    "PriceAdjustment": 60,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/bc224f953bfc4c679edf00631f14fe6c.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1438,
+                    "Name": "L - 18\" x 24\"",
+                    "CartName": "L - 18\" x 24\"",
+                    "EnglishName": "L - 18\" x 24\"",
+                    "EnglishCartName": "L - 18\" x 24\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 3,
+                    "PriceAdjustment": 105,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/de9d95ff14874bc1a798963a3319cdb2.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1439,
+                    "Name": "XL - 24\" x 32\"",
+                    "CartName": "XL - 24\" x 32\"",
+                    "EnglishName": "XL - 24\" x 32\"",
+                    "EnglishCartName": "XL - 24\" x 32\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 4,
+                    "PriceAdjustment": 160,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/60c02d984d7c4112a451cd8b4ca5b116.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                },
+                {
+                    "Id": 1734,
+                    "Name": "XXL - 30\" x 40\"",
+                    "CartName": "XXL - 30\" x 40\"",
+                    "EnglishName": "XXL - 30\" x 40\"",
+                    "EnglishCartName": "XXL - 30\" x 40\"",
+                    "IsDefault": false,
+                    "IsActive": true,
+                    "IsPlaceholder": false,
+                    "Order": 5,
+                    "PriceAdjustment": 224,
+                    "UsePriceAdjustmentInName": true,
+                    "Image": {
+                        "Url": "https:\/\/tg-catalog-prod.s3.eu-west-1.amazonaws.com\/option-image\/2a13fd0d8edf4599be4b230344f1b353.svg"
+                    },
+                    "RelatedProduct": null,
+                    "CartDisplayType": "text"
+                }
+            ],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_358_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": true,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        },
+        {
+            "Id": 505,
+            "Name": "Step 2: Write the artist of your song<span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. John Legend<\/span>",
+            "CartName": "Artist:",
+            "EnglishName": "Step 2: Write the artist of your song<span class=\"giftBoxPlaceHolder\" style=\"display: none;\"> e.g. John Legend<\/span>",
+            "EnglishCartName": "Artist",
+            "Order": 7,
+            "IsRequired": false,
+            "IsActive": false,
+            "DisplayType": "default",
+            "Type": "text",
+            "Labels": [],
+            "Options": [],
+            "TextMinLength": null,
+            "TextIsMultiline": false,
+            "TextMaxLength": null,
+            "TextPlaceholder": null,
+            "TooltipId": null,
+            "GlossaryId": null,
+            "CustomizationTemplate": null,
+            "Uid": "419109_505_",
+            "Validations": {
+                "IsRequired": {
+                    "Value": false,
+                    "ErrorText": "*Oops  don't forget to personalize it!"
+                }
+            }
+        }
+    ],
+    "ShowAndHides": [
+        {
+            "ControllingCategory": 331,
+            "ControllingCategoryKey": "419109_331_",
+            "ControllingOption": 229,
+            "ControlledCategories": [
+                358
+            ],
+            "ControlledCategoryKeys": [
+                "419109_358_"
+            ]
+        },
+        {
+            "ControllingCategory": 331,
+            "ControllingCategoryKey": "419109_331_",
+            "ControllingOption": 335,
+            "ControlledCategories": [
+                358
+            ],
+            "ControlledCategoryKeys": [
+                "419109_358_"
+            ]
+        },
+        {
+            "ControllingCategory": 331,
+            "ControllingCategoryKey": "419109_331_",
+            "ControllingOption": 1655,
+            "ControlledCategories": [
+                348
+            ],
+            "ControlledCategoryKeys": [
+                "419109_348_"
+            ]
+        }
+    ],
+    "Fields": [
+        {
+            "Name": "Materials",
+            "Value": "Polycotton Canvas, FSC Certified",
+            "Order": 0
+        },
+        {
+            "Name": "Sizes",
+            "Value": "S- 9\"x12\", M- 12\"x16\", L- 18\"x24\", XL- 24\"x32\"",
+            "Order": 1
+        },
+        {
+            "Name": "Frames",
+            "Value": "100% real pine wood with a black or white finish",
+            "Order": 2
+        },
+        {
+            "Name": "Printing",
+            "Value": "UL certified Greenguard Gold Ink",
+            "Order": 3
+        }
+    ],
+    "Relationships": [
+        {
+            "Type": "set",
+            "RelatedProducts": []
+        }
+    ],
+    "Site": {
+        "Id": 51,
+        "Name": "MNN",
+        "Currency": {
+            "Code": "USD",
+            "Symbol": "$",
+            "Side": "left"
+        },
+        "Translations": {
+            "Validation.requiredField": "*Oops  don't forget to personalize it!",
+            "Validation.minTextLength": "Please provide at least 1 character."
+        }
+    },
+    "Description": "<div><div>Do you smile when you remember the lyrics of your favorite song? Now, you can see those memorable lyrics every day with our Music Memories Custom Canvas. Whether it's your prom song or the music you got engaged to, this bright piece allows you to constantly relive the memories. Just tell us the song, and we'll highlight the lyrics in this striking minimalist record design. You can create a canvas for yourself or a friend, and you can even add your name or a friend's name to this<a href=\".\/Products.aspx?p=310\"> custom art on canvas<\/a> to make it truly unique.<\/div>\u00a0<ul><li><strong>ORIGIN STORY: <\/strong>Designed by artist Roni Shalev from Israel. Produced in the USA.<\/li><li><strong>ECO-FRIENDLY: <\/strong>All our products are custom-made, designed by water-based solvent-free ink. and zero-waste. All wood is FSC certified from sustainable forests too!<\/li><\/ul><\/div>",
+    "Instruction": "<strong>USE IT LIKE THIS:<\/strong><div>The frames and canvases are ready to hang with pre-installed sawtooth hanging hardware. They have rubber bumpers to protect the wall surface and keep the print straight on the wall.<\/div>\u00a0<div><strong>CARE FOR IT LIKE THIS:<\/strong><\/div><div>Clean with a dry cloth when needed<\/div>",
+    "IsOutOfStock": false,
+    "IsActive": false,
+    "Pricing": {
+        "PriceElements": "selling_crossed",
+        "SellingPrice": 75,
+        "CrossedPrice": 90,
+        "DiscountPercentage": 0,
+        "BasePrice": 50,
+        "SupplierPrice": 10.5
+    },
+    "Metadata": {
+        "SchemaVersion": "1.4"
+    },
+    "Translations": {
+        "Title.description": null,
+        "Title.instruction": null
+    },
+    "IsArchived": false,
+    "IsDiamond": false,
+    "Media": {
+        "DefaultItemId": 50290,
+        "OverlayItemId": null,
+        "Items": [
+            {
+                "Id": 50290,
+                "Order": 0,
+                "Alt": "Music Memories Custom Canvas-4",
+                "Title": "Music Memories Custom Canvas-4",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-18.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-18-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 66038,
+                "Order": 1,
+                "Alt": "Music Memories Custom Canvas-3",
+                "Title": "Music Memories Custom Canvas-3",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-25.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-25-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 50291,
+                "Order": 2,
+                "Alt": "Music Memories Custom Canvas-5",
+                "Title": "Music Memories Custom Canvas-5",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-19.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-19-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 66036,
+                "Order": 3,
+                "Alt": "",
+                "Title": "",
+                "Type": "wistia_video",
+                "CdnImages": null,
+                "WistiaVideo": {
+                    "Key": "935348493"
+                },
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 66072,
+                "Order": 4,
+                "Alt": "Music Memories Custom Canvas-2",
+                "Title": "Music Memories Custom Canvas-2",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-28.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-28-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 50292,
+                "Order": 5,
+                "Alt": "Music Memories Custom Canvas-7",
+                "Title": "Music Memories Custom Canvas-7",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-20.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-20-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 66040,
+                "Order": 6,
+                "Alt": "Music Memories Custom Canvas-6",
+                "Title": "Music Memories Custom Canvas-6",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-27.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-27-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            },
+            {
+                "Id": 50293,
+                "Order": 7,
+                "Alt": "Music Memories Custom Canvas-1",
+                "Title": "Music Memories Custom Canvas-1",
+                "Type": "cdn_image",
+                "CdnImages": {
+                    "Original": {
+                        "Width": 1000,
+                        "Height": 1000,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-21.jpg"
+                    },
+                    "Medium": {
+                        "Width": 250,
+                        "Height": 250,
+                        "Path": "digital-asset\/product\/music-memories-custom-canvas-21-med.jpg"
+                    }
+                },
+                "WistiaVideo": null,
+                "ThreeSixtyWistiaVideo": null
+            }
+        ]
+    },
+    "UpperDescription": null,
+    "ProductRibbons": [
+        {
+            "Type": "free_text",
+            "Value": "SALE"
+        }
+    ],
+    "CategoryRibbons": [
+        {
+            "Type": "free_text",
+            "Value": "SALE"
+        }
+    ],
+    "UseFriendlyUrl": false,
+    "FriendlyUrl": "null",
+    "NoIndex": false,
+    "Id": 419109,
+    "ShortId": 8538,
+    "Sku": "100-35-10251-62"
+}
