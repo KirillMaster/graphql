@@ -15,11 +15,16 @@ public class Repository
         dbContext = dbContextFactory.CreateDbContext();
     }
 
-    public IQueryable<CatalogProduct> GetProducts(int count)
+    // public IQueryable<CatalogProduct> GetProducts(int count)
+    // {
+    //     return dbContext.Products.Take(count);
+    // }
+
+    public IQueryable<ManyJsonbColumns.CatalogProduct> GetSlicedProducts(string sku)
     {
-        return dbContext.Products.Take(count);
+        return dbContext.ProductsSliced.Where(x => x.Sku == sku).Take(100);
     }
-    
+
 
     public IQueryable<CustomersContext.Customer> GetCustomers(int count)
     {
