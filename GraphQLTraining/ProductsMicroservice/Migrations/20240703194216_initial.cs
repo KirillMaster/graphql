@@ -61,43 +61,6 @@ namespace ProductsMicroservice.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "category",
-                columns: table => new
-                {
-                    uid = table.Column<string>(type: "text", nullable: false),
-                    id = table.Column<int>(type: "integer", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    cartname = table.Column<string>(type: "text", nullable: false),
-                    englishname = table.Column<string>(type: "text", nullable: false),
-                    englishcartname = table.Column<string>(type: "text", nullable: false),
-                    order = table.Column<int>(type: "integer", nullable: false),
-                    isrequired = table.Column<bool>(type: "boolean", nullable: false),
-                    isactive = table.Column<bool>(type: "boolean", nullable: false),
-                    displaytype = table.Column<string>(type: "text", nullable: true),
-                    type = table.Column<string>(type: "text", nullable: false),
-                    textminlength = table.Column<int>(type: "integer", nullable: true),
-                    textismultiline = table.Column<bool>(type: "boolean", nullable: false),
-                    textmaxlength = table.Column<int>(type: "integer", nullable: true),
-                    textplaceholder = table.Column<string>(type: "text", nullable: true),
-                    tooltipid = table.Column<int>(type: "integer", nullable: true),
-                    glossaryid = table.Column<int>(type: "integer", nullable: true),
-                    customizationtemplate_url = table.Column<string>(type: "text", nullable: true),
-                    currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
-                    sku = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_category", x => x.uid);
-                    table.ForeignKey(
-                        name: "fk_category_products_sku_versionid_currencycode",
-                        columns: x => new { x.sku, x.versionid, x.currencycode },
-                        principalTable: "products",
-                        principalColumns: new[] { "sku", "versionid", "currencycode" },
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "digitalasset",
                 columns: table => new
                 {
@@ -148,6 +111,43 @@ namespace ProductsMicroservice.Migrations
                     table.PrimaryKey("pk_field", x => x.id);
                     table.ForeignKey(
                         name: "fk_field_products_sku_versionid_currencycode",
+                        columns: x => new { x.sku, x.versionid, x.currencycode },
+                        principalTable: "products",
+                        principalColumns: new[] { "sku", "versionid", "currencycode" },
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productcategory",
+                columns: table => new
+                {
+                    uid = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<int>(type: "integer", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    cartname = table.Column<string>(type: "text", nullable: false),
+                    englishname = table.Column<string>(type: "text", nullable: false),
+                    englishcartname = table.Column<string>(type: "text", nullable: false),
+                    order = table.Column<int>(type: "integer", nullable: false),
+                    isrequired = table.Column<bool>(type: "boolean", nullable: false),
+                    isactive = table.Column<bool>(type: "boolean", nullable: false),
+                    displaytype = table.Column<string>(type: "text", nullable: true),
+                    type = table.Column<string>(type: "text", nullable: false),
+                    textminlength = table.Column<int>(type: "integer", nullable: true),
+                    textismultiline = table.Column<bool>(type: "boolean", nullable: false),
+                    textmaxlength = table.Column<int>(type: "integer", nullable: true),
+                    textplaceholder = table.Column<string>(type: "text", nullable: true),
+                    tooltipid = table.Column<int>(type: "integer", nullable: true),
+                    glossaryid = table.Column<int>(type: "integer", nullable: true),
+                    customizationtemplate_url = table.Column<string>(type: "text", nullable: true),
+                    currencycode = table.Column<string>(type: "text", nullable: false),
+                    versionid = table.Column<long>(type: "bigint", nullable: false),
+                    sku = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_productcategory", x => x.uid);
+                    table.ForeignKey(
+                        name: "fk_productcategory_products_sku_versionid_currencycode",
                         columns: x => new { x.sku, x.versionid, x.currencycode },
                         principalTable: "products",
                         principalColumns: new[] { "sku", "versionid", "currencycode" },
@@ -214,9 +214,9 @@ namespace ProductsMicroservice.Migrations
                 {
                     table.PrimaryKey("pk_label", x => new { x.id, x.categoryuid });
                     table.ForeignKey(
-                        name: "fk_label_category_categoryuid",
+                        name: "fk_label_productcategory_categoryuid",
                         column: x => x.categoryuid,
-                        principalTable: "category",
+                        principalTable: "productcategory",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -251,9 +251,9 @@ namespace ProductsMicroservice.Migrations
                 {
                     table.PrimaryKey("pk_option", x => new { x.id, x.categoryuid });
                     table.ForeignKey(
-                        name: "fk_option_category_categoryuid",
+                        name: "fk_option_productcategory_categoryuid",
                         column: x => x.categoryuid,
-                        principalTable: "category",
+                        principalTable: "productcategory",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,16 +285,6 @@ namespace ProductsMicroservice.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_category_sku_versionid_currencycode",
-                table: "category",
-                columns: new[] { "sku", "versionid", "currencycode" });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_category_uid",
-                table: "category",
-                column: "uid");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_digitalasset_sku_versionid_currencycode",
                 table: "digitalasset",
                 columns: new[] { "sku", "versionid", "currencycode" });
@@ -313,6 +303,16 @@ namespace ProductsMicroservice.Migrations
                 name: "ix_option_categoryuid",
                 table: "option",
                 column: "categoryuid");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_productcategory_sku_versionid_currencycode",
+                table: "productcategory",
+                columns: new[] { "sku", "versionid", "currencycode" });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_productcategory_uid",
+                table: "productcategory",
+                column: "uid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_products_sku",
@@ -362,7 +362,7 @@ namespace ProductsMicroservice.Migrations
                 name: "showandhide");
 
             migrationBuilder.DropTable(
-                name: "category");
+                name: "productcategory");
 
             migrationBuilder.DropTable(
                 name: "relationship");

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ProductsMicroservice.FullRelational
 {
@@ -11,7 +12,7 @@ namespace ProductsMicroservice.FullRelational
     {
     }
 
-    public class Category : ProductPrimaryKey
+    public class ProductCategory : ProductPrimaryKey
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
@@ -145,6 +146,7 @@ namespace ProductsMicroservice.FullRelational
 
     public class Product : ProductId
     {
+
         //extended fields
         public string CurrencyCode { get; set; }
         
@@ -156,10 +158,12 @@ namespace ProductsMicroservice.FullRelational
         public ProductionInfo? ProductionInfo { get; set; }
         public string? Url { get; set; }
         public string Name { get; set; } = null!;
-        public List<Category> Categories { get; set; } = new();
+        public List<ProductCategory> Categories { get; set; } = new();
         public List<ShowAndHide> ShowAndHides { get; set; } = new();
-        public List<Field> Fields { get; set; } = new(); 
-        public List<Relationship> Relationships { get; set; } = new(); 
+        public List<Field> Fields { get; set; } = new();
+        public List<Relationship> Relationships { get; set; } = new();
+
+        public List<ProductsInCategories> ProductsInCategories { get; set; }
         public Site Site { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Instruction { get; set; } = null!;
@@ -279,5 +283,179 @@ namespace ProductsMicroservice.FullRelational
         public string CurrencyCode { get; set; }
         public long VersionId { get; set; }
         public string Sku { get; set; }
+    }
+    
+    
+    //category manager contract
+    public class Category
+    {
+        public Guid CategoryExternalId { get; set; }
+        public Content Content { get; set; }
+        public Seo Seo { get; set; }
+        
+        [GraphQLIgnore]
+        public ICollection<CategoryProduct> ProductsInCategory { get; set; }
+        [GraphQLIgnore]
+        public ICollection<Facet> Facets { get; set; }
+        
+        public List<FacetInfo> GetFacets(Guid categoryId, string selectedFilter = null)
+        {
+            var category = new List<Category>().FirstOrDefault(x => x.CategoryExternalId == categoryId);
+         
+            return category.Facets.SelectMany(categoryFacet =>
+            {
+                //берем все фасеты всех продуктов категории
+                var aggregates = category.ProductsInCategory.SelectMany(product => product.ProductFacets) 
+                    .Where(x => x.FieldName == categoryFacet.FieldName)
+                    .Where(x =>
+                    {
+                        if (selectedFilter == null)
+                        {
+                            return true;
+                        }
+
+                        return selectedFilter == x.Value;
+                    })
+                    .GroupBy(x => x.FieldName)
+                    //группируем по имени фасета
+                    .Select(x => new FacetInfo
+                    {
+                        Position = categoryFacet.Position,
+                        FieldName = categoryFacet.FieldName,
+                        FilterAggregates = x.GroupBy(facet => facet.Value).Select(grouping => new FilterDto
+                        {
+                            Name = x.Key,
+                            Count = x.Count()
+                        }).Where(filter => filter.Count > 0).ToList()
+                    });
+                return aggregates;
+            }).ToList();
+        }
+    }
+
+    public class Content
+    {
+        public string BackofficeName { get; set; }
+        public string Name { get; set; }
+        public string UrlName { get; set; }
+        public string CategoryDescription { get; set; }
+        public string CategoryImageLink { get; set; }
+        public string ImageTitle { get; set; }
+        public string ImageAlt { get; set; }
+    }
+
+    public class Seo
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public ICollection<SeoCategory> SeoCategories { get; set; }
+        public string HeaderScript { get; set; }
+        public string CategoryLowerSubtitle { get; set; }
+    }
+
+    public class SeoCategory
+    {
+        public Guid CategoryId { get; set; }
+        public Seo Seo { get; set; }
+        public string Name { get; set; }
+        public string UrlName { get; set; }
+    }
+
+    public class ProductsInCategories
+    {
+        public CategoryProduct CategoryProduct { get; set; }
+        public Product Product { get; set; }
+        public string Sku { get; set; }
+        public long VersionId { get; set; }
+        public string CurrencyCode { get; set; }
+        public Guid CategoryId { get; set; }
+    }
+
+    public class CategoryProduct
+    {
+        public Guid CategoryId { get; set; }
+        public string Sku { get; set; }
+        
+        public Product Product { get; set; }
+        public int BestSellersSortPosition { get; set; }
+        public int OnlineDateSortPosition { get; set; }
+        public ICollection<ProductFacet> ProductFacets  { get; set; }
+        
+        public List<ProductsInCategories> ProductsInCategories { get; set; }
+    }
+
+    public class ProductFacet
+    {
+        public Guid CategoryId { get; set; }
+        public string Sku { get; set; }
+        
+        public int Id { get; set; }
+        public string FieldName { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class Facet
+    {
+        public Guid CategoryId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string FieldName { get; set; }
+        public int Position { get; set; }
+    }
+    
+    public class CategoryDto {
+        public Guid CategoryExternalId { get; set; }
+        public Content Content { get; set; }
+        public Seo Seo { get; set; }
+        public List<FacetInfo> GetFacets(Guid categoryId, string selectedFilter = null)
+        {
+            //TODO:: добавить фильтрацию еще по фильтру
+            var filter = "Denis Mom";
+
+            var category = new List<Category>().FirstOrDefault(x => x.CategoryExternalId == categoryId);
+         
+            return category.Facets.SelectMany(categoryFacet =>
+            {
+                //берем все фасеты всех продуктов категории
+                var aggregates = category.ProductsInCategory.SelectMany(product => product.ProductFacets) 
+                    .Where(x => x.FieldName == categoryFacet.FieldName)
+                    .Where(x =>
+                    {
+                        if (selectedFilter == null)
+                        {
+                            return true;
+                        }
+
+                        return selectedFilter == x.Value;
+                    })
+                    .GroupBy(x => x.FieldName)
+                    //группируем по имени фасета
+                    .Select(x => new FacetInfo
+                    {
+                        Position = categoryFacet.Position,
+                        FieldName = categoryFacet.FieldName,
+                        FilterAggregates = x.GroupBy(facet => facet.Value).Select(grouping => new FilterDto
+                        {
+                            Name = x.Key,
+                            Count = x.Count()
+                        }).Where(filter => filter.Count > 0).ToList()
+                    });
+                return aggregates;
+            }).ToList();
+        }
+    }
+    
+    public class FilterDto
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+    }
+
+    public class FacetInfo
+    {
+        public string FieldName { get; set; }
+        public int Position { get; set; }
+        public List<FilterDto> FilterAggregates { get; set; }
     }
 }

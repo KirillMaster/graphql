@@ -106,24 +106,24 @@ public class MyDbContext : DbContext
             .HasMany(p => p.Categories)
             .WithOne()
             .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<ProductCategory>()
             .HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
 
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<ProductCategory>()
             .HasKey(x => x.Uid);
         
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<ProductCategory>()
             .HasIndex(x => x.Uid);
 
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<ProductCategory>()
             .HasMany(c => c.Options)
             .WithOne()
             .HasForeignKey(x => x.CategoryUid);
 
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<ProductCategory>()
             .OwnsOne(c => c.CustomizationTemplate);
 
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<ProductCategory>()
             .HasMany(c => c.Labels)
             .WithOne()
             .HasForeignKey(x => x.CategoryUid);
@@ -162,6 +162,22 @@ public class MyDbContext : DbContext
             .HasMany(c => c.Fields)
             .WithOne()
             .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+        
+        modelBuilder.Entity<ProductsInCategories>()
+            .HasKey(pic => new { pic.CategoryId, pic.Sku, pic.VersionId, pic.CurrencyCode });
+        
+        modelBuilder.Entity<ProductsInCategories>()
+            .HasOne(pic => pic.Product)
+            .WithMany(p => p.ProductsInCategories)
+            .HasForeignKey(pic => new { pic.Sku, pic.VersionId, pic.CurrencyCode });
+        
+        modelBuilder.Entity<ProductsInCategories>()
+            .HasOne(pic => pic.CategoryProduct)
+            .WithMany(c => c.ProductsInCategories)
+            .HasForeignKey(pic => new {pic.Sku, pic.CategoryId});
+
+
+        modelBuilder.Entity<Product>().HasIndex(x => x.Sku);
 
         modelBuilder.Entity<Field>()
             .HasKey(x => new { x.Id });
@@ -199,5 +215,62 @@ public class MyDbContext : DbContext
             .OwnsOne(c => c.Pricing);
         modelBuilder.Entity<Product>()
             .OwnsOne(c => c.Metadata);
+        
+        //categories
+        modelBuilder.Entity<Category>()
+            .HasMany(x => x.Facets)
+            .WithOne()
+            .HasForeignKey(x => x.CategoryId);
+        
+
+        modelBuilder.Entity<Category>()
+            .OwnsOne(category => category.Seo, seo =>
+            {
+                seo.OwnsMany(x => x.SeoCategories, seoCategory =>
+                {
+                    seoCategory.HasOne(x => x.Seo)
+                        .WithMany(x => x.SeoCategories)
+                        .HasForeignKey(x => x.CategoryId);
+                    seoCategory.HasIndex(x => x.CategoryId);
+                });
+            });
+
+        modelBuilder.Entity<Category>()
+            .OwnsOne(x => x.Content);
+
+        modelBuilder.Entity<Facet>()
+            .HasIndex(x => x.CategoryId);
+        
+        modelBuilder.Entity<Facet>()
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Category>()
+            .HasKey(x => x.CategoryExternalId);
+
+        modelBuilder.Entity<Category>()
+            .HasMany(x => x.ProductsInCategory)
+            .WithOne()
+            .HasForeignKey(x => x.CategoryId);
+
+        modelBuilder.Entity<CategoryProduct>()
+            .HasIndex(x => x.CategoryId);
+
+        modelBuilder.Entity<CategoryProduct>()
+            .HasKey(x => new { x.Sku, x.CategoryId });
+
+        modelBuilder.Entity<CategoryProduct>()
+            .HasMany(x => x.ProductFacets)
+            .WithOne()
+            .HasForeignKey(x => new { x.Sku, x.CategoryId });
+        
+
+        modelBuilder.Entity<ProductFacet>()
+            .HasIndex(x => new { x.Sku, x.CategoryId });
+        
+        modelBuilder.Entity<ProductFacet>()
+            .HasKey(x => x.Id);
+
+    
+        
     }
 }

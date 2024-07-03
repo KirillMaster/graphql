@@ -13,6 +13,11 @@ public class Query
         return repository.GetProducts().Where(x => x.Sku == sku);
     }
     
+    // public IEnumerable<CategoryDto> Categories([Service] Repository repository, Guid categoryId, string sku, string selectedFilter = null)
+    // {
+    //     return repository.GetCategories()
+    // }
+
     // [UseProjection]
     // [UseFiltering]
     // [UseSorting]
