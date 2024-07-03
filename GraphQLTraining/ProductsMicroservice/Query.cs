@@ -1,5 +1,5 @@
 ﻿using ProductsMicroservice.FullRelational;
-using ProductsMicroservice.OneJsonbColumn;
+//using ProductsMicroservice.OneJsonbColumn;
 
 namespace ProductsMicroservice;
 

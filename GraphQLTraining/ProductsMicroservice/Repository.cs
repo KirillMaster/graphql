@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using ProductsMicroservice.FullRelational;
 using ProductsMicroservice.ManyJsonbColumns;
-using CatalogProduct = ProductsMicroservice.OneJsonbColumn.CatalogProduct;
 using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 namespace ProductsMicroservice;
@@ -18,80 +17,81 @@ public class Repository
         dbContext = dbContextFactory.CreateDbContext();
     }
 
-    // public void Insert()
-    // {
-    //     CleanDb();
-    //     for (int i = 0; i < 50000; i++)
-    //     {
-    //         InsertInternal();
-    //         if (i % 1000 == 0)
-    //         {
-    //             dbContext.SaveChanges();
-    //         }
-    //         Console.WriteLine(i);
-    //     }
-    //
-    // }
+    public void Insert()
+    {
+        CleanDb();
+        for (int i = 0; i < 50000; i++)
+        {
+            InsertInternal();
+            if (i % 1000 == 0)
+            {
+                dbContext.SaveChanges();
+            }
+            Console.WriteLine(i);
+        }
+    
+    }
 
-    // private void InsertInternal()
-    // {
-    //     var rand = new Random();
-    //     var deserialized = JsonConvert.DeserializeObject<Product>(File.ReadAllText(@"C:\home\GraphQL\graphql\GraphQLTraining\ProductsMicroservice\FullRelational\catalog_pascal.json"));
-    //
-    //     var random = new Random();
-    //     deserialized.Uid = rand.Next(int.MaxValue);
-    //     deserialized.CurrencyCode = GetRandomCurrency();
-    //     deserialized.Sku = GenerateRandomString(12);
-    //     deserialized.VersionId =  random.NextInt64(long.MaxValue);
-    //     // deserialized.ProductRibbons.ForEach((x )=>
-    //     // {
-    //     //     x.Sku = deserialized.Sku;
-    //     //     x.VersionId = deserialized.VersionId;
-    //     //     x.CurrencyCode = deserialized.CurrencyCode;
-    //     //     x.Id = rand.Next(int.MaxValue);
-    //     // });
-    //     
-    //     deserialized.Media.Items.ForEach(x =>
-    //     {
-    //         x.ProductUid = deserialized.Uid;
-    //         x.Id = rand.Next(int.MaxValue);
-    //     });
-    //
-    //     foreach (var category in deserialized.Categories)
-    //     {
-    //         category.Uid = GenerateRandomString(24);
-    //         if (category.Options != null)
-    //             foreach (var option in category.Options)
-    //             {
-    //                 option.CategoryUid = category.Uid;
-    //             }
-    //     }
-    //
-    //     foreach (var showAndHide in deserialized.ShowAndHides)
-    //     {
-    //         showAndHide.Id = rand.Next(int.MaxValue);
-    //         showAndHide.ProductUid = deserialized.Uid;
-    //     }
-    //
-    //     foreach (var field in deserialized.Fields)
-    //     {
-    //         field.Id = rand.Next(int.MaxValue);
-    //         field.ProductUid = deserialized.Uid;
-    //     }
-    //
-    //     foreach (var relationship in deserialized.Relationships)
-    //     {
-    //         relationship.Id = rand.Next(int.MaxValue);
-    //         relationship.ProductUid = deserialized.Uid;
-    //
-    //         foreach (var relatedProduct in relationship.RelatedProducts)
-    //         {
-    //             relatedProduct.RelationshipId = relationship.Id;
-    //         }
-    //     }
-    //
-    //     dbContext.Products.Add(deserialized);
-    // }
+    private void InsertInternal()
+    {
+        var rand = new Random();
+        var deserialized = JsonConvert.DeserializeObject<Product>(File.ReadAllText(@"C:\home\GraphQL\graphql\GraphQLTraining\ProductsMicroservice\FullRelational\catalog_pascal.json"));
+    
+        var random = new Random();
+        deserialized.Uid = rand.Next(int.MaxValue);
+        deserialized.CurrencyCode = GetRandomCurrency();
+        deserialized.Sku = GenerateRandomString(12);
+        deserialized.VersionId =  random.NextInt64(long.MaxValue);
+        // deserialized.ProductRibbons.ForEach((x )=>
+        // {
+        //     x.Sku = deserialized.Sku;
+        //     x.VersionId = deserialized.VersionId;
+        //     x.CurrencyCode = deserialized.CurrencyCode;
+        //     x.Id = rand.Next(int.MaxValue);
+        // });
+        
+        deserialized.Media.Items.ForEach(x =>
+        {
+            x.ProductUid = deserialized.Uid;
+            x.Id = rand.Next(int.MaxValue);
+        });
+    
+        foreach (var category in deserialized.Categories)
+        {
+            category.Uid = GenerateRandomString(24);
+            category.ProductUid = deserialized.Uid;
+            if (category.Options != null)
+                foreach (var option in category.Options)
+                {
+                    option.CategoryUid = category.Uid;
+                }
+        }
+    
+        foreach (var showAndHide in deserialized.ShowAndHides)
+        {
+            showAndHide.Id = rand.Next(int.MaxValue);
+            showAndHide.ProductUid = deserialized.Uid;
+        }
+    
+        foreach (var field in deserialized.Fields)
+        {
+            field.Id = rand.Next(int.MaxValue);
+            field.ProductUid = deserialized.Uid;
+        }
+    
+        foreach (var relationship in deserialized.Relationships)
+        {
+            relationship.Id = rand.Next(int.MaxValue);
+            relationship.ProductUid = deserialized.Uid;
+    
+            foreach (var relatedProduct in relationship.RelatedProducts)
+            {
+                relatedProduct.RelationshipId = relationship.Id;
+            }
+        }
+    
+        dbContext.Products.Add(deserialized);
+    }
 
     private static string GenerateRandomString(int length)
     {

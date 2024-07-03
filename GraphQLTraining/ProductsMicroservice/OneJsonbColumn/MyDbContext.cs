@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;
 using ProductsMicroservice.FullRelational;
 using ProductsMicroservice.ManyJsonbColumns;
-using ProductsMicroservice.OneJsonbColumn;
-using CatalogProduct = ProductsMicroservice.OneJsonbColumn.CatalogProduct;
+// using ProductsMicroservice.OneJsonbColumn;
+// using CatalogProduct = ProductsMicroservice.OneJsonbColumn.CatalogProduct;
 using Category = ProductsMicroservice.FullRelational.Category;
 using Field = ProductsMicroservice.FullRelational.Field;
 using Label = ProductsMicroservice.FullRelational.Label;
@@ -47,15 +47,15 @@ public class MyDbContext : DbContext
         }
     }
     
-    private void MapOneJsonbColumn(ModelBuilder modelBuilder)
-    {
-        
-        var converter = new JsonbConverter<LocalProduct>();
-        modelBuilder.Entity<ProductsMicroservice.OneJsonbColumn.CatalogProduct>()
-            .Property(p => p.Product)
-            .HasConversion(converter)
-            .HasColumnType("jsonb");
-    }
+    // private void MapOneJsonbColumn(ModelBuilder modelBuilder)
+    // {
+    //     
+    //     var converter = new JsonbConverter<LocalProduct>();
+    //     modelBuilder.Entity<ProductsMicroservice.OneJsonbColumn.CatalogProduct>()
+    //         .Property(p => p.Product)
+    //         .HasConversion(converter)
+    //         .HasColumnType("jsonb");
+    // }
 
     private void MapRelational(ModelBuilder modelBuilder)
     {
