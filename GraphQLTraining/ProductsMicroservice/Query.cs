@@ -14,15 +14,15 @@ public class Query
     //     return repository.GetProducts().Where(x => x.Sku == sku);
     // }
     
-    // public IQueryable<Product> CatalogProducts([Service] Repository repository, string sku)
-    // {
-    //     return repository.GetProducts().Where(x => x.Sku == sku);
-    // }
-    
-    public IQueryable<CatalogProduct> OneColumnProducts([Service] Repository repository, string sku)
+    public IQueryable<Product> CatalogProducts([Service] Repository repository, string sku)
     {
-        return repository.GetOneColumnProducts().Where(x => x.SKU == sku);
+        return repository.GetProducts().Where(x => x.Sku == sku);
     }
+    
+    // public IQueryable<CatalogProduct> OneColumnProducts([Service] Repository repository, string sku)
+    // {
+    //     return repository.GetOneColumnProducts().Where(x => x.SKU == sku);
+    // }
     
     // [UseProjection]
     // [UseFiltering]

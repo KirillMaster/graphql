@@ -23,8 +23,8 @@ public class MyDbContext : DbContext
         : base(options)
     {
     }
-  //   public DbSet<Product> Products { get; set; }
-     public DbSet<CatalogProduct> OneColumnProducts { get; set; }
+     public DbSet<Product> Products { get; set; }
+   //  public DbSet<CatalogProduct> OneColumnProducts { get; set; }
      //public DbSet<CatalogProduct> ProductsSliced { get; set; }
 
     // public DbSet<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced { get; set; }
@@ -32,9 +32,9 @@ public class MyDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-       // MapRelational(modelBuilder);
+        MapRelational(modelBuilder);
         //modelBuilder.ManyJsonbColumns();
-        MapOneJsonbColumn(modelBuilder);
+       // MapOneJsonbColumn(modelBuilder);
     }
 
     

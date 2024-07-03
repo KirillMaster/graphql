@@ -128,15 +128,15 @@ public class Repository
         dbContext.Database.ExecuteSqlRaw("SET session_replication_role = 'origin';");
     }
 
-    // public IQueryable<Product> GetProducts()
-    // {
-    //     return dbContext.Products;
-    // }
-    
-    public IQueryable<CatalogProduct> GetOneColumnProducts()
+    public IQueryable<Product> GetProducts()
     {
-        return dbContext.OneColumnProducts;
+        return dbContext.Products;
     }
+    
+    // public IQueryable<CatalogProduct> GetOneColumnProducts()
+    // {
+    //     return dbContext.OneColumnProducts;
+    // }
     
     // public IQueryable<CatalogProduct> GetSlicedProducts(string currency)
     // {
