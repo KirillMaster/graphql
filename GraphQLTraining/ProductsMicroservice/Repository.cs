@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using ProductsMicroservice.FullRelational;
 using ProductsMicroservice.ManyJsonbColumns;
+using Category = ProductsMicroservice.FullRelational.Category;
 using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 namespace ProductsMicroservice;
@@ -20,19 +21,46 @@ public class Repository
     public void Insert()
     {
         CleanDb();
-        for (int i = 0; i < 50000; i++)
+        
+        
+        for (int i = 0; i < 1000; i++)
         {
-            InsertInternal();
-            if (i % 1000 == 0)
+            try
             {
+                InsertProducts();
+                if (i % 100 == 0)
+                {
+                    dbContext.SaveChanges();
+                }
+              
+                
+        
+                Console.WriteLine(i);
+            }
+            catch (Exception)
+            {
+                
+            }
+           
+        }
+        
+        
+        for (int i = 0; i < 10; i++)
+        {
+            try
+            {
+                InsertCategories();
                 dbContext.SaveChanges();
             }
-            Console.WriteLine(i);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
- 
+
     }
 
-    private void InsertInternal()
+    private void InsertProducts()
     {
         var rand = new Random();
         var deserialized = JsonConvert.DeserializeObject<Product>(File.ReadAllText(@"C:\home\GraphQL\graphql\GraphQLTraining\ProductsMicroservice\FullRelational\catalog_pascal.json"));
@@ -99,6 +127,124 @@ public class Repository
         dbContext.Products.Add(deserialized);
     }
 
+    private void InsertCategories()
+    {
+        var productKeys = dbContext.Products.Select(x => new { x.Sku, x.VersionId, x.CurrencyCode }).ToList();
+
+        var facets = new string[] { "For Denis Mum", "For Shmulik Kids", "For Tamas baby" };
+        var filters = new string[] { "1 inscription", "2 inscription", "3 inscription" };
+
+        var categoryGuid = Guid.NewGuid();
+        var rand = new Random();
+        
+        
+        var category = new ProductsMicroservice.FullRelational.Category
+        {
+            CategoryExternalId = categoryGuid,
+            Content = new Content
+            {
+                Name = "Super category",
+                BackofficeName = "Backoffice super category",
+                CategoryDescription = "Description",
+                ImageAlt = "alt",
+                ImageTitle = "super title",
+                UrlName = "image",
+                CategoryImageLink = "http://localhost:1234"
+            },
+            Seo = new Seo
+            {
+                Description = "description",
+                Title = "title",
+                HeaderScript = "script",
+                CategoryLowerSubtitle = "lowerSubtitle",
+                SeoCategories = new List<SeoCategory>
+                {
+                    new SeoCategory
+                    {
+                        Name = "name",
+                        CategoryId = categoryGuid,
+                        UrlName = "urlName"
+                    }
+                }
+            },
+            Facets = new List<Facet>
+            {
+                new Facet
+                {
+                    Id = rand.Next(int.MaxValue),
+                    Name = facets[rand.Next(facets.Length)],
+                    Position = rand.Next(100),
+                    CategoryId = categoryGuid,
+                    FieldName = filters[rand.Next(filters.Length)]
+                },
+                new Facet
+                {
+                    Id = rand.Next(int.MaxValue),
+                    Name = facets[rand.Next(facets.Length)],
+                    Position = rand.Next(100),
+                    CategoryId = categoryGuid,
+                    FieldName = filters[rand.Next(filters.Length)]
+                },
+                new Facet
+                {
+                    Id = rand.Next(int.MaxValue),
+                    Name = facets[rand.Next(facets.Length)],
+                    Position = rand.Next(100),
+                    CategoryId = categoryGuid,
+                    FieldName = filters[rand.Next(filters.Length)]
+                },
+            },
+        };
+
+
+        var categoryProducts = new List<CategoryProduct>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            var key = productKeys[rand.Next(productKeys.Count())];
+            categoryProducts.Add(new CategoryProduct
+            {
+                ProductSku = key.Sku,
+                ProductVersionId = key.VersionId,
+                ProductCurrencyCode = key.CurrencyCode,
+                CategoryId = categoryGuid,
+                BestSellersSortPosition = rand.Next(100),
+                OnlineDateSortPosition = rand.Next(100),
+                ProductFacets = new List<ProductFacet>
+                {
+                    new ProductFacet
+                    {
+                        Id = rand.Next(int.MaxValue),
+                        Sku = key.Sku,
+                        Value = filters[rand.Next(filters.Length)],
+                        CategoryId = categoryGuid,
+                        FieldName = facets[0]
+                    },
+                    new ProductFacet
+                    {
+                        Id = rand.Next(int.MaxValue),
+                        Sku = key.Sku,
+                        Value = filters[rand.Next(filters.Length)],
+                        CategoryId = categoryGuid,
+                        FieldName = facets[1]
+                    },
+                    new ProductFacet
+                    {
+                        Id = rand.Next(int.MaxValue),
+                        Sku = key.Sku,
+                        Value = filters[rand.Next(filters.Length)],
+                        CategoryId = categoryGuid,
+                        FieldName = facets[2]
+                    }
+                }
+            });
+        }
+
+        category.ProductsInCategory = categoryProducts;
+
+        dbContext.Categories.Add(category);
+    }
+
     private static string GenerateRandomString(int length)
     {
         var rand = new Random();
@@ -138,7 +284,12 @@ public class Repository
     {
         return dbContext.Products;
     }
-    
+
+    public IQueryable<Category> GetCategories()
+    {
+        return dbContext.Categories;
+    }
+
     // public IQueryable<CatalogProduct> GetSlicedProducts(string currency)
     // {
     //     return dbContext.ProductsSliced.Where(x => x.CurrencyCode == currency);

@@ -13,8 +13,8 @@ using ProductsMicroservice;
 namespace ProductsMicroservice.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240703194216_initial")]
-    partial class initial
+    [Migration("20240703211456_initial2")]
+    partial class initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,102 @@ namespace ProductsMicroservice.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
+                {
+                    b.Property<Guid>("CategoryExternalId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("categoryexternalid");
+
+                    b.HasKey("CategoryExternalId")
+                        .HasName("pk_categories");
+
+                    b.ToTable("categories", (string)null);
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.CategoryProduct", b =>
+                {
+                    b.Property<string>("Sku")
+                        .HasColumnType("text")
+                        .HasColumnName("sku");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("categoryid");
+
+                    b.Property<int>("BestSellersSortPosition")
+                        .HasColumnType("integer")
+                        .HasColumnName("bestsellerssortposition");
+
+                    b.Property<int>("OnlineDateSortPosition")
+                        .HasColumnType("integer")
+                        .HasColumnName("onlinedatesortposition");
+
+                    b.Property<string>("ProductCurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("productcurrencycode");
+
+                    b.Property<string>("ProductSku")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("productsku");
+
+                    b.Property<long>("ProductVersionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("productversionid");
+
+                    b.HasKey("Sku", "CategoryId")
+                        .HasName("pk_categoryproduct");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("ix_categoryproduct_categoryid");
+
+                    b.HasIndex("ProductSku", "ProductVersionId", "ProductCurrencyCode")
+                        .HasDatabaseName("ix_categoryproduct_productsku_productversionid_productcurrency~");
+
+                    b.ToTable("categoryproduct", (string)null);
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.Facet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("categoryid");
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("fieldname");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("integer")
+                        .HasColumnName("position");
+
+                    b.HasKey("Id")
+                        .HasName("pk_facet");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("ix_facet_categoryid");
+
+                    b.HasIndex("FieldName")
+                        .HasDatabaseName("ix_facet_fieldname");
+
+                    b.ToTable("facet", (string)null);
+                });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Field", b =>
                 {
@@ -367,6 +463,76 @@ namespace ProductsMicroservice.Migrations
                     b.ToTable("productcategory", (string)null);
                 });
 
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.ProductFacet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("categoryid");
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("fieldname");
+
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sku");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
+                    b.HasKey("Id")
+                        .HasName("pk_productfacet");
+
+                    b.HasIndex("FieldName")
+                        .HasDatabaseName("ix_productfacet_fieldname");
+
+                    b.HasIndex("Sku", "CategoryId")
+                        .HasDatabaseName("ix_productfacet_sku_categoryid");
+
+                    b.ToTable("productfacet", (string)null);
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.ProductsInCategories", b =>
+                {
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("categoryid");
+
+                    b.Property<string>("Sku")
+                        .HasColumnType("text")
+                        .HasColumnName("sku");
+
+                    b.Property<long>("VersionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("versionid");
+
+                    b.Property<string>("CurrencyCode")
+                        .HasColumnType("text")
+                        .HasColumnName("currencycode");
+
+                    b.HasKey("CategoryId", "Sku", "VersionId", "CurrencyCode")
+                        .HasName("pk_productsincategories");
+
+                    b.HasIndex("Sku", "CategoryId")
+                        .HasDatabaseName("ix_productsincategories_sku_categoryid");
+
+                    b.HasIndex("Sku", "VersionId", "CurrencyCode")
+                        .HasDatabaseName("ix_productsincategories_sku_versionid_currencycode");
+
+                    b.ToTable("productsincategories", (string)null);
+                });
+
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Relationship", b =>
                 {
                     b.Property<int>("Id")
@@ -510,6 +676,171 @@ namespace ProductsMicroservice.Migrations
                         .HasDatabaseName("ix_showandhide_sku_versionid_currencycode");
 
                     b.ToTable("showandhide", (string)null);
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
+                {
+                    b.OwnsOne("ProductsMicroservice.FullRelational.Content", "Content", b1 =>
+                        {
+                            b1.Property<Guid>("CategoryExternalId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("categoryexternalid");
+
+                            b1.Property<string>("BackofficeName")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_backofficename");
+
+                            b1.Property<string>("CategoryDescription")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_categorydescription");
+
+                            b1.Property<string>("CategoryImageLink")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_categoryimagelink");
+
+                            b1.Property<string>("ImageAlt")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_imagealt");
+
+                            b1.Property<string>("ImageTitle")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_imagetitle");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_name");
+
+                            b1.Property<string>("UrlName")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("content_urlname");
+
+                            b1.HasKey("CategoryExternalId")
+                                .HasName("pk_categories");
+
+                            b1.ToTable("categories");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CategoryExternalId")
+                                .HasConstraintName("fk_categories_categories_categoryexternalid");
+                        });
+
+                    b.OwnsOne("ProductsMicroservice.FullRelational.Seo", "Seo", b1 =>
+                        {
+                            b1.Property<Guid>("CategoryExternalId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("categoryexternalid");
+
+                            b1.Property<string>("CategoryLowerSubtitle")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("seo_categorylowersubtitle");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("seo_description");
+
+                            b1.Property<string>("HeaderScript")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("seo_headerscript");
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("seo_title");
+
+                            b1.HasKey("CategoryExternalId")
+                                .HasName("pk_categories");
+
+                            b1.ToTable("categories");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CategoryExternalId")
+                                .HasConstraintName("fk_categories_categories_categoryexternalid");
+
+                            b1.OwnsMany("ProductsMicroservice.FullRelational.SeoCategory", "SeoCategories", b2 =>
+                                {
+                                    b2.Property<Guid>("CategoryId")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("categoryid");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer")
+                                        .HasColumnName("id");
+
+                                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b2.Property<int>("Id"));
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("name");
+
+                                    b2.Property<string>("UrlName")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("urlname");
+
+                                    b2.HasKey("CategoryId", "Id")
+                                        .HasName("pk_seocategory");
+
+                                    b2.HasIndex("CategoryId")
+                                        .HasDatabaseName("ix_seocategory_categoryid");
+
+                                    b2.ToTable("seocategory", (string)null);
+
+                                    b2.WithOwner("Seo")
+                                        .HasForeignKey("CategoryId")
+                                        .HasConstraintName("fk_seocategory_categories_categoryid");
+
+                                    b2.Navigation("Seo");
+                                });
+
+                            b1.Navigation("SeoCategories");
+                        });
+
+                    b.Navigation("Content")
+                        .IsRequired();
+
+                    b.Navigation("Seo")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.CategoryProduct", b =>
+                {
+                    b.HasOne("ProductsMicroservice.FullRelational.Category", null)
+                        .WithMany("ProductsInCategory")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_categoryproduct_categories_categoryid");
+
+                    b.HasOne("ProductsMicroservice.FullRelational.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_categoryproduct_products_productsku_productversionid_produc~");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.Facet", b =>
+                {
+                    b.HasOne("ProductsMicroservice.FullRelational.Category", null)
+                        .WithMany("Facets")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_facet_categories_categoryid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Field", b =>
@@ -1247,6 +1578,37 @@ namespace ProductsMicroservice.Migrations
                     b.Navigation("CustomizationTemplate");
                 });
 
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.ProductFacet", b =>
+                {
+                    b.HasOne("ProductsMicroservice.FullRelational.CategoryProduct", null)
+                        .WithMany("ProductFacets")
+                        .HasForeignKey("Sku", "CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_productfacet_categoryproduct_sku_categoryid");
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.ProductsInCategories", b =>
+                {
+                    b.HasOne("ProductsMicroservice.FullRelational.CategoryProduct", "CategoryProduct")
+                        .WithMany("ProductsInCategories")
+                        .HasForeignKey("Sku", "CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_productsincategories_categoryproduct_sku_categoryid");
+
+                    b.HasOne("ProductsMicroservice.FullRelational.Product", "Product")
+                        .WithMany("ProductsInCategories")
+                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_productsincategories_products_sku_versionid_currencycode");
+
+                    b.Navigation("CategoryProduct");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Relationship", b =>
                 {
                     b.HasOne("ProductsMicroservice.FullRelational.Product", null)
@@ -1277,11 +1639,27 @@ namespace ProductsMicroservice.Migrations
                         .HasConstraintName("fk_showandhide_products_sku_versionid_currencycode");
                 });
 
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
+                {
+                    b.Navigation("Facets");
+
+                    b.Navigation("ProductsInCategory");
+                });
+
+            modelBuilder.Entity("ProductsMicroservice.FullRelational.CategoryProduct", b =>
+                {
+                    b.Navigation("ProductFacets");
+
+                    b.Navigation("ProductsInCategories");
+                });
+
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Product", b =>
                 {
                     b.Navigation("Categories");
 
                     b.Navigation("Fields");
+
+                    b.Navigation("ProductsInCategories");
 
                     b.Navigation("Relationships");
 

@@ -293,15 +293,17 @@ namespace ProductsMicroservice.FullRelational
         public Content Content { get; set; }
         public Seo Seo { get; set; }
         
-        [GraphQLIgnore]
-        public ICollection<CategoryProduct> ProductsInCategory { get; set; }
-        [GraphQLIgnore]
-        public ICollection<Facet> Facets { get; set; }
+    
+        public List<CategoryProduct> ProductsInCategory { get; set; }
+   
+        public List<Facet> Facets { get; set; }
         
-        public List<FacetInfo> GetFacets(Guid categoryId, string selectedFilter = null)
+        public List<FacetInfo> GetFacets([Parent] Category category,  List<FacetFilter> selectedFilters )
         {
-            var category = new List<Category>().FirstOrDefault(x => x.CategoryExternalId == categoryId);
-         
+            
+       
+            
+            
             return category.Facets.SelectMany(categoryFacet =>
             {
                 //берем все фасеты всех продуктов категории
@@ -309,12 +311,19 @@ namespace ProductsMicroservice.FullRelational
                     .Where(x => x.FieldName == categoryFacet.FieldName)
                     .Where(x =>
                     {
-                        if (selectedFilter == null)
+                        var selectedFiltersForCurrentFacet =
+                            selectedFilters.Where(selectedFacet => selectedFacet.FacetName == x.FieldName)
+                                .ToList();
+                        
+                        if (!selectedFiltersForCurrentFacet.Any())
                         {
                             return true;
                         }
 
-                        return selectedFilter == x.Value;
+                        return selectedFiltersForCurrentFacet
+                            .Select(selectedFacetFilter => selectedFacetFilter.SelectedFilter)
+                            .Contains(x.Value);
+                        
                     })
                     .GroupBy(x => x.FieldName)
                     //группируем по имени фасета
@@ -332,6 +341,13 @@ namespace ProductsMicroservice.FullRelational
             }).ToList();
         }
     }
+    
+    //contract
+    public class FacetFilter
+    {
+        public string FacetName { get; set; }
+        public string SelectedFilter { get; set; }
+    }
 
     public class Content
     {
@@ -346,7 +362,6 @@ namespace ProductsMicroservice.FullRelational
 
     public class Seo
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public ICollection<SeoCategory> SeoCategories { get; set; }
@@ -375,7 +390,9 @@ namespace ProductsMicroservice.FullRelational
     public class CategoryProduct
     {
         public Guid CategoryId { get; set; }
-        public string Sku { get; set; }
+        public string ProductSku { get; set; }
+        public long ProductVersionId { get; set; }
+        public string ProductCurrencyCode { get; set; }
         
         public Product Product { get; set; }
         public int BestSellersSortPosition { get; set; }

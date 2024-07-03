@@ -13,8 +13,8 @@ using ProductsMicroservice;
 namespace ProductsMicroservice.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240703202624_initial3")]
-    partial class initial3
+    [Migration("20240703210747_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,9 +34,9 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnName("categoryexternalid");
 
                     b.HasKey("CategoryExternalId")
-                        .HasName("pk_category");
+                        .HasName("pk_categories");
 
-                    b.ToTable("category", (string)null);
+                    b.ToTable("categories", (string)null);
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.CategoryProduct", b =>
@@ -115,6 +115,9 @@ namespace ProductsMicroservice.Migrations
 
                     b.HasIndex("CategoryId")
                         .HasDatabaseName("ix_facet_categoryid");
+
+                    b.HasIndex("FieldName")
+                        .HasDatabaseName("ix_facet_fieldname");
 
                     b.ToTable("facet", (string)null);
                 });
@@ -491,6 +494,9 @@ namespace ProductsMicroservice.Migrations
                     b.HasKey("Id")
                         .HasName("pk_productfacet");
 
+                    b.HasIndex("FieldName")
+                        .HasDatabaseName("ix_productfacet_fieldname");
+
                     b.HasIndex("Sku", "CategoryId")
                         .HasDatabaseName("ix_productfacet_sku_categoryid");
 
@@ -716,13 +722,13 @@ namespace ProductsMicroservice.Migrations
                                 .HasColumnName("content_urlname");
 
                             b1.HasKey("CategoryExternalId")
-                                .HasName("pk_category");
+                                .HasName("pk_categories");
 
-                            b1.ToTable("category");
+                            b1.ToTable("categories");
 
                             b1.WithOwner()
                                 .HasForeignKey("CategoryExternalId")
-                                .HasConstraintName("fk_category_category_categoryexternalid");
+                                .HasConstraintName("fk_categories_categories_categoryexternalid");
                         });
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.Seo", "Seo", b1 =>
@@ -756,13 +762,13 @@ namespace ProductsMicroservice.Migrations
                                 .HasColumnName("seo_title");
 
                             b1.HasKey("CategoryExternalId")
-                                .HasName("pk_category");
+                                .HasName("pk_categories");
 
-                            b1.ToTable("category");
+                            b1.ToTable("categories");
 
                             b1.WithOwner()
                                 .HasForeignKey("CategoryExternalId")
-                                .HasConstraintName("fk_category_category_categoryexternalid");
+                                .HasConstraintName("fk_categories_categories_categoryexternalid");
 
                             b1.OwnsMany("ProductsMicroservice.FullRelational.SeoCategory", "SeoCategories", b2 =>
                                 {
@@ -797,7 +803,7 @@ namespace ProductsMicroservice.Migrations
 
                                     b2.WithOwner("Seo")
                                         .HasForeignKey("CategoryId")
-                                        .HasConstraintName("fk_seocategory_category_categoryid");
+                                        .HasConstraintName("fk_seocategory_categories_categoryid");
 
                                     b2.Navigation("Seo");
                                 });
@@ -819,7 +825,7 @@ namespace ProductsMicroservice.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_categoryproduct_category_categoryid");
+                        .HasConstraintName("fk_categoryproduct_categories_categoryid");
 
                     b.HasOne("ProductsMicroservice.FullRelational.Product", "Product")
                         .WithMany()
@@ -838,7 +844,7 @@ namespace ProductsMicroservice.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_facet_category_categoryid");
+                        .HasConstraintName("fk_facet_categories_categoryid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Field", b =>

@@ -19,6 +19,7 @@ public class MyDbContext : DbContext
     {
     }
      public DbSet<Product> Products { get; set; }
+     public DbSet<Category> Categories { get; set; }
      //public DbSet<CatalogProduct> ProductsSliced { get; set; }
 
     // public DbSet<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced { get; set; }
@@ -256,7 +257,7 @@ public class MyDbContext : DbContext
             .HasIndex(x => x.CategoryId);
 
         modelBuilder.Entity<CategoryProduct>()
-            .HasKey(x => new { x.Sku, x.CategoryId });
+            .HasKey(x => new { x.ProductSku, x.CategoryId });
 
         modelBuilder.Entity<CategoryProduct>()
             .HasMany(x => x.ProductFacets)
@@ -270,7 +271,10 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<ProductFacet>()
             .HasKey(x => x.Id);
 
-    
-        
+        modelBuilder.Entity<ProductFacet>()
+            .HasIndex(x => x.FieldName);
+
+        modelBuilder.Entity<Facet>()
+            .HasIndex(x => x.FieldName);
     }
 }
