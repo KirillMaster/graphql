@@ -13,7 +13,7 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
             b =>
             {
                 b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null); 
-                //b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             })
         .UseLowerCaseNamingConvention());
 
@@ -39,17 +39,17 @@ app.MapGraphQL();
 
 
 var repo = app.Services.GetService<Repository>();
-// repo.Insert();
+ // repo.Insert();
 
 
-
-var category = repo.GetCategories()
-    .Include(c => c.ProductsInCategory)
-    .ThenInclude(x => x.Product)
-    .ThenInclude(x => x.Categories)
-    .FirstOrDefault(c => c.CategoryExternalId == new Guid("63908e50-1571-4254-9adb-964a2563add8"));
-
-var productData = category.ProductsInCategory.FirstOrDefault().Product.Categories;
+//
+// var category = repo.GetCategories()
+//     .Include(c => c.ProductsInCategory)
+//     .ThenInclude(x => x.Product)
+//     .ThenInclude(x => x.Categories)
+//     .FirstOrDefault(c => c.CategoryExternalId == new Guid("63908e50-1571-4254-9adb-964a2563add8"));
+//
+// var productData = category.ProductsInCategory.FirstOrDefault().Product.Categories;
 
 app.Run();
 

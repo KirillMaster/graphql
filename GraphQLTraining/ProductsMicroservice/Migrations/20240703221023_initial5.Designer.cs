@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductsMicroservice;
@@ -12,9 +13,11 @@ using ProductsMicroservice;
 namespace ProductsMicroservice.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240703221023_initial5")]
+    partial class initial5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,15 +106,15 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnName("position");
 
                     b.HasKey("Id")
-                        .HasName("pk_facets");
+                        .HasName("pk_facet");
 
                     b.HasIndex("CategoryId")
-                        .HasDatabaseName("ix_facets_categoryid");
+                        .HasDatabaseName("ix_facet_categoryid");
 
                     b.HasIndex("FieldName")
-                        .HasDatabaseName("ix_facets_fieldname");
+                        .HasDatabaseName("ix_facet_fieldname");
 
-                    b.ToTable("facets", (string)null);
+                    b.ToTable("facet", (string)null);
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Field", b =>
@@ -802,7 +805,7 @@ namespace ProductsMicroservice.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_facets_categories_categoryid");
+                        .HasConstraintName("fk_facet_categories_categoryid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Field", b =>

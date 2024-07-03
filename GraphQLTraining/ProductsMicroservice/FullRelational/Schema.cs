@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsMicroservice.FullRelational
 {
@@ -162,8 +163,6 @@ namespace ProductsMicroservice.FullRelational
         public List<ShowAndHide> ShowAndHides { get; set; } = new();
         public List<Field> Fields { get; set; } = new();
         public List<Relationship> Relationships { get; set; } = new();
-
-        public List<ProductsInCategories> ProductsInCategories { get; set; }
         public Site Site { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Instruction { get; set; } = null!;
@@ -298,17 +297,20 @@ namespace ProductsMicroservice.FullRelational
    
         public List<Facet> Facets { get; set; }
         
-        public List<FacetInfo> GetFacets([Parent] Category category,  List<FacetFilter> selectedFilters )
+        public IEnumerable<FacetInfo> GetCategoryFacets(Guid categoryKey,  [Service] Repository repository, List<UserInputFilter> selectedFilters )
         {
+            var facets = repository.GetFacets(categoryKey).AsEnumerable();
+            var dbProductsInCategory = repository.GetCategories().Where(x => x.CategoryExternalId == categoryKey)
+                .Include(x => x.ProductsInCategory)
+                .ThenInclude(x => x.ProductFacets)
+                .SelectMany(x => x.ProductsInCategory);
             
-       
-            
-            
-            return category.Facets.SelectMany(categoryFacet =>
+            return facets.SelectMany(categoryFacet =>
             {
                 //берем все фасеты всех продуктов категории
-                var aggregates = category.ProductsInCategory.SelectMany(product => product.ProductFacets) 
+                var aggregates = dbProductsInCategory.SelectMany(product => product.ProductFacets) 
                     .Where(x => x.FieldName == categoryFacet.FieldName)
+                    .AsEnumerable()
                     .Where(x =>
                     {
                         var selectedFiltersForCurrentFacet =
@@ -317,13 +319,19 @@ namespace ProductsMicroservice.FullRelational
                         
                         if (!selectedFiltersForCurrentFacet.Any())
                         {
-                            return true;
+                            return false;
                         }
-
                         return selectedFiltersForCurrentFacet
                             .Select(selectedFacetFilter => selectedFacetFilter.SelectedFilter)
                             .Contains(x.Value);
-                        
+
+                    })
+                    //нам надо получить SKU продуктов, попавших под фильтр, а затем сделать группировку 
+                    .Select(x => x.Sku)
+                    .Distinct()
+                    .SelectMany(sku =>
+                    {
+                        return dbProductsInCategory.FirstOrDefault(x => x.ProductSku == sku)?.ProductFacets;
                     })
                     .GroupBy(x => x.FieldName)
                     //группируем по имени фасета
@@ -335,15 +343,15 @@ namespace ProductsMicroservice.FullRelational
                         {
                             Name = x.Key,
                             Count = x.Count()
-                        }).Where(filter => filter.Count > 0).ToList()
+                        })/*.Where(filter => filter.Count > 0)*/.ToList()
                     });
                 return aggregates;
-            }).ToList();
+            }).AsEnumerable();
         }
     }
     
     //contract
-    public class FacetFilter
+    public class UserInputFilter
     {
         public string FacetName { get; set; }
         public string SelectedFilter { get; set; }
@@ -377,16 +385,6 @@ namespace ProductsMicroservice.FullRelational
         public string UrlName { get; set; }
     }
 
-    public class ProductsInCategories
-    {
-        public CategoryProduct CategoryProduct { get; set; }
-        public Product Product { get; set; }
-        public string Sku { get; set; }
-        public long VersionId { get; set; }
-        public string CurrencyCode { get; set; }
-        public Guid CategoryId { get; set; }
-    }
-
     public class CategoryProduct
     {
         public Guid CategoryId { get; set; }
@@ -399,7 +397,6 @@ namespace ProductsMicroservice.FullRelational
         public int OnlineDateSortPosition { get; set; }
         public ICollection<ProductFacet> ProductFacets  { get; set; }
         
-        public List<ProductsInCategories> ProductsInCategories { get; set; }
     }
 
     public class ProductFacet

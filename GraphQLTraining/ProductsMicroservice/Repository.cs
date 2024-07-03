@@ -172,26 +172,26 @@ public class Repository
                 new Facet
                 {
                     Id = rand.Next(int.MaxValue),
-                    Name = facets[rand.Next(facets.Length)],
+                    Name = filters[rand.Next(filters.Length)],
                     Position = rand.Next(100),
                     CategoryId = categoryGuid,
-                    FieldName = filters[rand.Next(filters.Length)]
+                    FieldName = facets[rand.Next(facets.Length)]
                 },
                 new Facet
                 {
                     Id = rand.Next(int.MaxValue),
-                    Name = facets[rand.Next(facets.Length)],
+                    Name = filters[rand.Next(filters.Length)],
                     Position = rand.Next(100),
                     CategoryId = categoryGuid,
-                    FieldName = filters[rand.Next(filters.Length)]
+                    FieldName = facets[rand.Next(facets.Length)]
                 },
                 new Facet
                 {
                     Id = rand.Next(int.MaxValue),
-                    Name = facets[rand.Next(facets.Length)],
+                    Name = filters[rand.Next(filters.Length)],
                     Position = rand.Next(100),
                     CategoryId = categoryGuid,
-                    FieldName = filters[rand.Next(filters.Length)]
+                    FieldName = facets[rand.Next(facets.Length)]
                 },
             },
         };
@@ -288,6 +288,11 @@ public class Repository
     public IQueryable<Category> GetCategories()
     {
         return dbContext.Categories;
+    }
+
+    public IQueryable<Facet> GetFacets(Guid categoryId)
+    {
+        return dbContext.Facets.Where(x => x.CategoryId == categoryId);
     }
 
     // public IQueryable<CatalogProduct> GetSlicedProducts(string currency)

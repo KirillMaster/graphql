@@ -13,6 +13,9 @@ public class Query
         return repository.GetProducts().Where(x => x.Sku == sku);
     }
     
+    [UseProjection]
+    [UseFiltering]
+    [UseSorting]
     public IQueryable<Category> Categories([Service] Repository repository, Guid categoryId)
     {
         return repository.GetCategories().Where(x => x.CategoryExternalId == categoryId);

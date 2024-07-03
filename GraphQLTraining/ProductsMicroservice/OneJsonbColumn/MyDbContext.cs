@@ -20,6 +20,8 @@ public class MyDbContext : DbContext
     }
      public DbSet<Product> Products { get; set; }
      public DbSet<Category> Categories { get; set; }
+     
+     public DbSet<Facet> Facets { get; set; }
      //public DbSet<CatalogProduct> ProductsSliced { get; set; }
 
     // public DbSet<ProductsMicroservice.ManyJsonbColumns.CatalogProduct> ProductsSliced { get; set; }
@@ -163,19 +165,6 @@ public class MyDbContext : DbContext
             .HasMany(c => c.Fields)
             .WithOne()
             .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
-        
-        modelBuilder.Entity<ProductsInCategories>()
-            .HasKey(pic => new { pic.CategoryId, pic.Sku, pic.VersionId, pic.CurrencyCode });
-        
-        modelBuilder.Entity<ProductsInCategories>()
-            .HasOne(pic => pic.Product)
-            .WithMany(p => p.ProductsInCategories)
-            .HasForeignKey(pic => new { pic.Sku, pic.VersionId, pic.CurrencyCode });
-        
-        modelBuilder.Entity<ProductsInCategories>()
-            .HasOne(pic => pic.CategoryProduct)
-            .WithMany(c => c.ProductsInCategories)
-            .HasForeignKey(pic => new {pic.Sku, pic.CategoryId});
 
 
         modelBuilder.Entity<Product>().HasIndex(x => x.Sku);
@@ -223,6 +212,16 @@ public class MyDbContext : DbContext
             .WithOne()
             .HasForeignKey(x => x.CategoryId);
         
+        modelBuilder.Entity<Facet>()
+            .HasIndex(x => x.CategoryId);
+        
+        modelBuilder.Entity<Facet>()
+            .HasKey(x => x.Id);
+        
+        modelBuilder.Entity<Facet>()
+            .HasIndex(x => x.FieldName);
+
+        
 
         modelBuilder.Entity<Category>()
             .OwnsOne(category => category.Seo, seo =>
@@ -239,12 +238,7 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<Category>()
             .OwnsOne(x => x.Content);
 
-        modelBuilder.Entity<Facet>()
-            .HasIndex(x => x.CategoryId);
-        
-        modelBuilder.Entity<Facet>()
-            .HasKey(x => x.Id);
-
+       
         modelBuilder.Entity<Category>()
             .HasKey(x => x.CategoryExternalId);
 
@@ -274,7 +268,6 @@ public class MyDbContext : DbContext
         modelBuilder.Entity<ProductFacet>()
             .HasIndex(x => x.FieldName);
 
-        modelBuilder.Entity<Facet>()
-            .HasIndex(x => x.FieldName);
+
     }
 }
