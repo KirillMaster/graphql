@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ProductsMicroservice.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,12 +110,12 @@ namespace ProductsMicroservice.Migrations
                     alt = table.Column<string>(type: "text", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
-                    cdnimages_original_width = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_original_height = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_original_path = table.Column<string>(type: "text", nullable: false),
-                    cdnimages_medium_width = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_medium_height = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_medium_path = table.Column<string>(type: "text", nullable: false),
+                    cdnimages_original_width = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_original_height = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_original_path = table.Column<string>(type: "text", nullable: true),
+                    cdnimages_medium_width = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_medium_height = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_medium_path = table.Column<string>(type: "text", nullable: true),
                     wistiavideo_key = table.Column<string>(type: "text", nullable: true),
                     threesixtywistiavideo_key = table.Column<string>(type: "text", nullable: true)
                 },

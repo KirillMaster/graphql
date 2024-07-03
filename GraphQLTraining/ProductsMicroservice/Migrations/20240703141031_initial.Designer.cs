@@ -13,8 +13,8 @@ using ProductsMicroservice;
 namespace ProductsMicroservice.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240703103509_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240703141031_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -921,11 +921,9 @@ namespace ProductsMicroservice.Migrations
                                                         .HasConstraintName("fk_digitalasset_digitalasset_sku_versionid_currencycode_id");
                                                 });
 
-                                            b3.Navigation("Medium")
-                                                .IsRequired();
+                                            b3.Navigation("Medium");
 
-                                            b3.Navigation("Original")
-                                                .IsRequired();
+                                            b3.Navigation("Original");
                                         });
 
                                     b2.OwnsOne("ProductsMicroservice.FullRelational.WistiaVideo", "ThreeSixtyWistiaVideo", b3 =>
