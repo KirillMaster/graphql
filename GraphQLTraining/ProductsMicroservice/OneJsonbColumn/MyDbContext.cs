@@ -2,8 +2,11 @@
 using ProductsMicroservice.FullRelational;
 using ProductsMicroservice.ManyJsonbColumns;
 using Category = ProductsMicroservice.FullRelational.Category;
+using Field = ProductsMicroservice.FullRelational.Field;
 using Label = ProductsMicroservice.FullRelational.Label;
+using Relationship = ProductsMicroservice.FullRelational.Relationship;
 using Ribbon = ProductsMicroservice.FullRelational.Ribbon;
+using ShowAndHide = ProductsMicroservice.FullRelational.ShowAndHide;
 
 //using ProductsMicroservice.ManyJsonbColumns;
 
@@ -65,17 +68,18 @@ public class MyDbContext : DbContext
              });
          });
         
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.ProductRibbons)
-            .WithOne()
-            .HasForeignKey(c => new { c.Sku, c.VersionId, c.CurrencyCode });
+        // modelBuilder.Entity<Product>()
+        //     .HasMany(p => p.ProductRibbons)
+        //     .WithOne()
+        //     .HasForeignKey(c => new { c.Sku, c.VersionId, c.CurrencyCode });
         
         // modelBuilder.Entity<Product>()
         //     .HasMany(c => c.CategoryRibbons)
         //     .WithOne()
         //     .HasForeignKey(c => new { c.Sku, c.VersionId, c.CurrencyCode });
 
-        modelBuilder.Entity<Ribbon>().HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+        // modelBuilder.Entity<Ribbon>().HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+        // modelBuilder.Entity<Ribbon>().HasKey(x => new { x.Id });
 
         modelBuilder.Entity<Product>()
             .OwnsOne(p => p.Media, media =>
@@ -144,5 +148,56 @@ public class MyDbContext : DbContext
                 relatedProduct.OwnsOne(c => c.Pricing);
             });
 
+        modelBuilder.Entity<Product>()
+            .HasMany(c => c.ShowAndHides)
+            .WithOne()
+            .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+
+        modelBuilder.Entity<ShowAndHide>()
+            .HasKey(x => new { x.Id });
+        modelBuilder.Entity<ShowAndHide>()
+            .HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+        
+        modelBuilder.Entity<Product>()
+            .HasMany(c => c.Fields)
+            .WithOne()
+            .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+
+        modelBuilder.Entity<Field>()
+            .HasKey(x => new { x.Id });
+        modelBuilder.Entity<Field>()
+            .HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+
+        modelBuilder.Entity<Product>()
+            .HasMany(x => x.Relationships)
+            .WithOne()
+            .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+        modelBuilder.Entity<Relationship>()
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Relationship>()
+            .HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+
+        modelBuilder.Entity<Relationship>()
+            .HasMany(x => x.RelatedProducts)
+            .WithOne()
+            .HasForeignKey(x => x.RelationshipId);
+
+        modelBuilder.Entity<RelationshipProduct>()
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<RelationshipProduct>()
+            .HasIndex(x => x.RelationshipId);
+
+        modelBuilder.Entity<Product>()
+            .OwnsOne(c => c.Site, site =>
+            {
+                site.OwnsOne(c => c.Currency);
+            });
+
+        modelBuilder.Entity<Product>()
+            .OwnsOne(c => c.Pricing);
+        modelBuilder.Entity<Product>()
+            .OwnsOne(c => c.Metadata);
     }
 }

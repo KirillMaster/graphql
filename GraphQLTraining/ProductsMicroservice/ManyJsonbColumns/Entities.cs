@@ -114,6 +114,8 @@ public class Option
 
 public class RelatedProduct
 {
+    public int RelationshipId { get; set; }
+    public int Id { get; set; }
     public long RelatedProductId { get; set; }
     public long ShortId { get; set; }
     public string Sku { get; set; }

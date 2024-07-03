@@ -19,7 +19,7 @@ public class Repository
 
     public void Insert()
     {
-      //  CleanDb();
+        CleanDb();
         for (int i = 0; i < 50000; i++)
         {
             InsertInternal();
@@ -41,13 +41,13 @@ public class Repository
         deserialized.CurrencyCode = GetRandomCurrency();
         deserialized.Sku = GenerateRandomString(12);
         deserialized.VersionId =  random.NextInt64(long.MaxValue);
-        deserialized.ProductRibbons.ForEach((x )=>
-        {
-            x.Sku = deserialized.Sku;
-            x.VersionId = deserialized.VersionId;
-            x.CurrencyCode = deserialized.CurrencyCode;
-            x.Id = rand.Next(int.MaxValue);
-        });
+        // deserialized.ProductRibbons.ForEach((x )=>
+        // {
+        //     x.Sku = deserialized.Sku;
+        //     x.VersionId = deserialized.VersionId;
+        //     x.CurrencyCode = deserialized.CurrencyCode;
+        //     x.Id = rand.Next(int.MaxValue);
+        // });
         
         deserialized.Media.Items.ForEach(x =>
         {
@@ -65,6 +65,35 @@ public class Repository
                 {
                     option.CategoryUid = category.Uid;
                 }
+        }
+
+        foreach (var showAndHide in deserialized.ShowAndHides)
+        {
+            showAndHide.Id = rand.Next(int.MaxValue);
+            showAndHide.Sku = deserialized.Sku;
+            showAndHide.VersionId = deserialized.VersionId;
+            showAndHide.CurrencyCode = deserialized.CurrencyCode;
+        }
+
+        foreach (var field in deserialized.Fields)
+        {
+            field.Id = rand.Next(int.MaxValue);
+            field.Sku = deserialized.Sku;
+            field.VersionId = deserialized.VersionId;
+            field.CurrencyCode = deserialized.CurrencyCode;
+        }
+
+        foreach (var relationship in deserialized.Relationships)
+        {
+            relationship.Id = rand.Next(int.MaxValue);
+            relationship.Sku = deserialized.Sku;
+            relationship.VersionId = deserialized.VersionId;
+            relationship.CurrencyCode = deserialized.CurrencyCode;
+
+            foreach (var relatedProduct in relationship.RelatedProducts)
+            {
+                relatedProduct.RelationshipId = relationship.Id;
+            }
         }
 
         dbContext.Products.Add(deserialized);

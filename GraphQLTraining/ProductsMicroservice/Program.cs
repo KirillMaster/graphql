@@ -12,7 +12,7 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
         .UseNpgsql("Host=localhost;Port=5432;Database=CatalogProducts;Username=postgres;Password=1234;",
             b =>
             {
-                b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null); 
                 //b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             })
         .UseLowerCaseNamingConvention());

@@ -46,8 +46,8 @@ namespace ProductsMicroservice.FullRelational
 
     public class CdnImageDimensions
     {
-        public CdnImage Original { get; set; } = null!;
-        public CdnImage Medium { get; set; } = null!;
+        public CdnImage? Original { get; set; } = null!;
+        public CdnImage? Medium { get; set; } = null!;
     }
 
     public class Currency
@@ -77,8 +77,9 @@ namespace ProductsMicroservice.FullRelational
     {
     }
 
-    public class Field
+    public class Field : ProductPrimaryKey
     {
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string Value { get; set; } = null!;
         public int Order { get; set; }
@@ -156,24 +157,26 @@ namespace ProductsMicroservice.FullRelational
         public string? Url { get; set; }
         public string Name { get; set; } = null!;
         public List<Category> Categories { get; set; } = new();
-        // public List<ShowAndHide> ShowAndHides { get; set; } = new();
-        // public List<Field> Fields { get; set; } = new();
-        // public List<Relationship> Relationships { get; set; } = new();
-        // public Site Site { get; set; } = null!;
+        public List<ShowAndHide> ShowAndHides { get; set; } = new();
+        public List<Field> Fields { get; set; } = new(); 
+        public List<Relationship> Relationships { get; set; } = new(); 
+        public Site Site { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Instruction { get; set; } = null!;
         public bool IsOutOfStock { get; set; }
-        public bool IsActive { get; set; }
-        // public ProductPricing Pricing { get; set; } = null!;
-        // public Metadata Metadata { get; set; } = null!;
+        public bool IsActive { get; set; } 
+        public ProductPricing Pricing { get; set; } = null!; 
+        public Metadata Metadata { get; set; } = null!;
         // public Dictionary<string, string> Translations { get; set; } = new();
         public bool IsArchived { get; set; }
         public bool IsDiamond { get; set; } 
         public ProductMedia Media { get; set; } = null!;
         //added nullable string
         public string? UpperDescription { get; set; } = null!;
-        public List<Ribbon> ProductRibbons { get; set; } = new(); 
-      // public List<Ribbon> CategoryRibbons { get; set; } = new();
+        
+        //TODO:: refactor ribbons to have ProductRibbon type and CategoryRibbon type
+        // public List<Ribbon> ProductRibbons { get; set; } = new();
+        // public List<Ribbon> CategoryRibbons { get; set; } = new();
         public bool? UseFriendlyUrl { get; set; } = null!;
         public string? FriendlyUrl { get; set; } = null!;
         public bool? NoIndex { get; set; } = null!;
@@ -207,6 +210,7 @@ namespace ProductsMicroservice.FullRelational
 
     public class RelationshipProduct : ProductId
     {
+        public int RelationshipId { get; set; }
         public List<string> RelatedCategoryUids { get; set; } = new();
         public List<string> RelatedChildCategoryUids { get; set; } = new();
         public long VersionId { get; set; }
@@ -221,8 +225,11 @@ namespace ProductsMicroservice.FullRelational
         public string Value { get; set; } = null!;
     }
 
-    public class ShowAndHide
+    public class ShowAndHide : ProductPrimaryKey
     {
+        //new key
+        public int Id { get; set; }
+        
         public int ControllingCategory { get; set; }
         public string ControllingCategoryKey { get; set; } = null!;
         public int ControllingOption { get; set; }
@@ -235,7 +242,8 @@ namespace ProductsMicroservice.FullRelational
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public Currency Currency { get; set; } = null!;
-        public Dictionary<string, string> Translations { get; set; } = new();
+        //TODO::
+       // public Dictionary<string, string> Translations { get; set; } = new();
     }
 
     public class SwitchProduct
@@ -259,8 +267,9 @@ namespace ProductsMicroservice.FullRelational
         public string Key { get; set; } = null!;
     }
 
-    public class Relationship
+    public class Relationship : ProductPrimaryKey
     {
+        public int Id { get; set; }
         public string Type { get; set; } = null!;
         public List<RelationshipProduct> RelatedProducts { get; set; } = new();
     }
