@@ -146,6 +146,8 @@ namespace ProductsMicroservice.FullRelational
     public class Product : ProductId
     {
         //extended fields
+        public int Uid { get; set; }
+        
         public string CurrencyCode { get; set; }
         
         public string Type { get; set; } = null!;
@@ -276,8 +278,6 @@ namespace ProductsMicroservice.FullRelational
 
     public class ProductPrimaryKey
     {
-        public string CurrencyCode { get; set; }
-        public long VersionId { get; set; }
-        public string Sku { get; set; }
+       public int ProductUid { get; set; }
     }
 }

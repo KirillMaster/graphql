@@ -1,16 +1,27 @@
 ﻿using ProductsMicroservice.FullRelational;
+using ProductsMicroservice.OneJsonbColumn;
 
 namespace ProductsMicroservice;
 
 public class Query
 {
     //   [UsePaging(DefaultPageSize = 40)]
-    [UseProjection]
-    [UseFiltering]
-    [UseSorting]
-    public IQueryable<Product> CatalogProducts([Service] Repository repository, string sku)
+    // [UseProjection]
+    // [UseFiltering]
+    // [UseSorting]
+    // public IQueryable<Product> CatalogProducts([Service] Repository repository, string sku)
+    // {
+    //     return repository.GetProducts().Where(x => x.Sku == sku);
+    // }
+    
+    // public IQueryable<Product> CatalogProducts([Service] Repository repository, string sku)
+    // {
+    //     return repository.GetProducts().Where(x => x.Sku == sku);
+    // }
+    
+    public IQueryable<CatalogProduct> OneColumnProducts([Service] Repository repository, string sku)
     {
-        return repository.GetProducts().Where(x => x.Sku == sku);
+        return repository.GetOneColumnProducts().Where(x => x.SKU == sku);
     }
     
     // [UseProjection]

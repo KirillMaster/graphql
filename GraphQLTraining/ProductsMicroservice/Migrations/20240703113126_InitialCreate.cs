@@ -17,12 +17,24 @@ namespace ProductsMicroservice.Migrations
                 name: "products",
                 columns: table => new
                 {
-                    sku = table.Column<string>(type: "text", nullable: false),
+                    uid = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
+                    versionid = table.Column<long>(type: "bigint", nullable: false),
                     updatedat = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     onlinedate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    family_id = table.Column<int>(type: "integer", nullable: false),
+                    family_name = table.Column<string>(type: "text", nullable: false),
+                    productioninfo_isnonenglishinscription = table.Column<bool>(type: "boolean", nullable: true),
+                    productioninfo_boxsize_id = table.Column<int>(type: "integer", nullable: true),
+                    productioninfo_boxsize_name = table.Column<string>(type: "text", nullable: true),
+                    productioninfo_weight = table.Column<decimal>(type: "numeric", nullable: true),
+                    productioninfo_productsizehscode_id = table.Column<int>(type: "integer", nullable: true),
+                    productioninfo_productsizehscode_name = table.Column<string>(type: "text", nullable: true),
+                    productioninfo_productsize = table.Column<string>(type: "text", nullable: true),
+                    productioninfo_supplierproductid = table.Column<string>(type: "text", nullable: true),
+                    productioninfo_supplierid = table.Column<int>(type: "integer", nullable: true),
                     url = table.Column<string>(type: "text", nullable: true),
                     name = table.Column<string>(type: "text", nullable: false),
                     site_id = table.Column<int>(type: "integer", nullable: false),
@@ -52,12 +64,11 @@ namespace ProductsMicroservice.Migrations
                     excludedcountries = table.Column<string[]>(type: "text[]", nullable: true),
                     id = table.Column<int>(type: "integer", nullable: false),
                     shortid = table.Column<int>(type: "integer", nullable: false),
-                    family = table.Column<string>(type: "jsonb", nullable: false),
-                    productioninfo = table.Column<string>(type: "jsonb", nullable: true)
+                    sku = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_products", x => new { x.sku, x.versionid, x.currencycode });
+                    table.PrimaryKey("pk_products", x => x.uid);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,18 +93,16 @@ namespace ProductsMicroservice.Migrations
                     tooltipid = table.Column<int>(type: "integer", nullable: true),
                     glossaryid = table.Column<int>(type: "integer", nullable: true),
                     customizationtemplate_url = table.Column<string>(type: "text", nullable: true),
-                    currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
-                    sku = table.Column<string>(type: "text", nullable: false)
+                    productuid = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_category", x => x.uid);
                     table.ForeignKey(
-                        name: "fk_category_products_sku_versionid_currencycode",
-                        columns: x => new { x.sku, x.versionid, x.currencycode },
+                        name: "fk_category_products_productuid",
+                        column: x => x.productuid,
                         principalTable: "products",
-                        principalColumns: new[] { "sku", "versionid", "currencycode" },
+                        principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -101,32 +110,30 @@ namespace ProductsMicroservice.Migrations
                 name: "digitalasset",
                 columns: table => new
                 {
-                    currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
-                    sku = table.Column<string>(type: "text", nullable: false),
+                    productuid = table.Column<int>(type: "integer", nullable: false),
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     order = table.Column<int>(type: "integer", nullable: false),
                     alt = table.Column<string>(type: "text", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
-                    cdnimages_original_width = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_original_height = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_original_path = table.Column<string>(type: "text", nullable: false),
-                    cdnimages_medium_width = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_medium_height = table.Column<int>(type: "integer", nullable: false),
-                    cdnimages_medium_path = table.Column<string>(type: "text", nullable: false),
+                    cdnimages_original_width = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_original_height = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_original_path = table.Column<string>(type: "text", nullable: true),
+                    cdnimages_medium_width = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_medium_height = table.Column<int>(type: "integer", nullable: true),
+                    cdnimages_medium_path = table.Column<string>(type: "text", nullable: true),
                     wistiavideo_key = table.Column<string>(type: "text", nullable: true),
                     threesixtywistiavideo_key = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_digitalasset", x => new { x.sku, x.versionid, x.currencycode, x.id });
+                    table.PrimaryKey("pk_digitalasset", x => new { x.productuid, x.id });
                     table.ForeignKey(
-                        name: "fk_digitalasset_products_sku_versionid_currencycode",
-                        columns: x => new { x.sku, x.versionid, x.currencycode },
+                        name: "fk_digitalasset_products_productuid",
+                        column: x => x.productuid,
                         principalTable: "products",
-                        principalColumns: new[] { "sku", "versionid", "currencycode" },
+                        principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -139,18 +146,16 @@ namespace ProductsMicroservice.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     value = table.Column<string>(type: "text", nullable: false),
                     order = table.Column<int>(type: "integer", nullable: false),
-                    currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
-                    sku = table.Column<string>(type: "text", nullable: false)
+                    productuid = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_field", x => x.id);
                     table.ForeignKey(
-                        name: "fk_field_products_sku_versionid_currencycode",
-                        columns: x => new { x.sku, x.versionid, x.currencycode },
+                        name: "fk_field_products_productuid",
+                        column: x => x.productuid,
                         principalTable: "products",
-                        principalColumns: new[] { "sku", "versionid", "currencycode" },
+                        principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -161,18 +166,16 @@ namespace ProductsMicroservice.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     type = table.Column<string>(type: "text", nullable: false),
-                    currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
-                    sku = table.Column<string>(type: "text", nullable: false)
+                    productuid = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_relationship", x => x.id);
                     table.ForeignKey(
-                        name: "fk_relationship_products_sku_versionid_currencycode",
-                        columns: x => new { x.sku, x.versionid, x.currencycode },
+                        name: "fk_relationship_products_productuid",
+                        column: x => x.productuid,
                         principalTable: "products",
-                        principalColumns: new[] { "sku", "versionid", "currencycode" },
+                        principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -187,18 +190,16 @@ namespace ProductsMicroservice.Migrations
                     controllingoption = table.Column<int>(type: "integer", nullable: false),
                     controlledcategories = table.Column<List<int>>(type: "integer[]", nullable: false),
                     controlledcategorykeys = table.Column<List<string>>(type: "text[]", nullable: false),
-                    currencycode = table.Column<string>(type: "text", nullable: false),
-                    versionid = table.Column<long>(type: "bigint", nullable: false),
-                    sku = table.Column<string>(type: "text", nullable: false)
+                    productuid = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_showandhide", x => x.id);
                     table.ForeignKey(
-                        name: "fk_showandhide_products_sku_versionid_currencycode",
-                        columns: x => new { x.sku, x.versionid, x.currencycode },
+                        name: "fk_showandhide_products_productuid",
+                        column: x => x.productuid,
                         principalTable: "products",
-                        principalColumns: new[] { "sku", "versionid", "currencycode" },
+                        principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -285,9 +286,9 @@ namespace ProductsMicroservice.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_category_sku_versionid_currencycode",
+                name: "ix_category_productuid",
                 table: "category",
-                columns: new[] { "sku", "versionid", "currencycode" });
+                column: "productuid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_category_uid",
@@ -295,14 +296,14 @@ namespace ProductsMicroservice.Migrations
                 column: "uid");
 
             migrationBuilder.CreateIndex(
-                name: "ix_digitalasset_sku_versionid_currencycode",
+                name: "ix_digitalasset_productuid",
                 table: "digitalasset",
-                columns: new[] { "sku", "versionid", "currencycode" });
+                column: "productuid");
 
             migrationBuilder.CreateIndex(
-                name: "ix_field_sku_versionid_currencycode",
+                name: "ix_field_productuid",
                 table: "field",
-                columns: new[] { "sku", "versionid", "currencycode" });
+                column: "productuid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_label_categoryuid",
@@ -325,9 +326,14 @@ namespace ProductsMicroservice.Migrations
                 columns: new[] { "sku", "versionid", "currencycode" });
 
             migrationBuilder.CreateIndex(
-                name: "ix_relationship_sku_versionid_currencycode",
+                name: "ix_products_uid",
+                table: "products",
+                column: "uid");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_relationship_productuid",
                 table: "relationship",
-                columns: new[] { "sku", "versionid", "currencycode" });
+                column: "productuid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_relationshipproduct_relationshipid",
@@ -335,9 +341,9 @@ namespace ProductsMicroservice.Migrations
                 column: "relationshipid");
 
             migrationBuilder.CreateIndex(
-                name: "ix_showandhide_sku_versionid_currencycode",
+                name: "ix_showandhide_productuid",
                 table: "showandhide",
-                columns: new[] { "sku", "versionid", "currencycode" });
+                column: "productuid");
         }
 
         /// <inheritdoc />

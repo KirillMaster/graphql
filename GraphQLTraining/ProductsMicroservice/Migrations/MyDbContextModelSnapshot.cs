@@ -34,11 +34,6 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("text")
                         .HasColumnName("cartname");
 
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("currencycode");
-
                     b.Property<string>("DisplayType")
                         .HasColumnType("text")
                         .HasColumnName("displaytype");
@@ -78,10 +73,9 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("order");
 
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("sku");
+                    b.Property<int>("ProductUid")
+                        .HasColumnType("integer")
+                        .HasColumnName("productuid");
 
                     b.Property<bool>("TextIsMultiline")
                         .HasColumnType("boolean")
@@ -108,18 +102,14 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("text")
                         .HasColumnName("type");
 
-                    b.Property<long>("VersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("versionid");
-
                     b.HasKey("Uid")
                         .HasName("pk_category");
 
+                    b.HasIndex("ProductUid")
+                        .HasDatabaseName("ix_category_productuid");
+
                     b.HasIndex("Uid")
                         .HasDatabaseName("ix_category_uid");
-
-                    b.HasIndex("Sku", "VersionId", "CurrencyCode")
-                        .HasDatabaseName("ix_category_sku_versionid_currencycode");
 
                     b.ToTable("category", (string)null);
                 });
@@ -133,11 +123,6 @@ namespace ProductsMicroservice.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("currencycode");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -147,25 +132,20 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("order");
 
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("sku");
+                    b.Property<int>("ProductUid")
+                        .HasColumnType("integer")
+                        .HasColumnName("productuid");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("value");
 
-                    b.Property<long>("VersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("versionid");
-
                     b.HasKey("Id")
                         .HasName("pk_field");
 
-                    b.HasIndex("Sku", "VersionId", "CurrencyCode")
-                        .HasDatabaseName("ix_field_sku_versionid_currencycode");
+                    b.HasIndex("ProductUid")
+                        .HasDatabaseName("ix_field_productuid");
 
                     b.ToTable("field", (string)null);
                 });
@@ -264,15 +244,15 @@ namespace ProductsMicroservice.Migrations
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Product", b =>
                 {
-                    b.Property<string>("Sku")
-                        .HasColumnType("text")
-                        .HasColumnName("sku");
+                    b.Property<int>("Uid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("uid");
 
-                    b.Property<long>("VersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("versionid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Uid"));
 
                     b.Property<string>("CurrencyCode")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("currencycode");
 
@@ -331,6 +311,11 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("shortid");
 
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sku");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text")
@@ -352,11 +337,18 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("usefriendlyurl");
 
-                    b.HasKey("Sku", "VersionId", "CurrencyCode")
+                    b.Property<long>("VersionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("versionid");
+
+                    b.HasKey("Uid")
                         .HasName("pk_products");
 
                     b.HasIndex("Sku")
                         .HasDatabaseName("ix_products_sku");
+
+                    b.HasIndex("Uid")
+                        .HasDatabaseName("ix_products_uid");
 
                     b.HasIndex("Sku", "VersionId", "CurrencyCode")
                         .HasDatabaseName("ix_products_sku_versionid_currencycode");
@@ -373,30 +365,20 @@ namespace ProductsMicroservice.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("currencycode");
-
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("sku");
+                    b.Property<int>("ProductUid")
+                        .HasColumnType("integer")
+                        .HasColumnName("productuid");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("type");
 
-                    b.Property<long>("VersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("versionid");
-
                     b.HasKey("Id")
                         .HasName("pk_relationship");
 
-                    b.HasIndex("Sku", "VersionId", "CurrencyCode")
-                        .HasDatabaseName("ix_relationship_sku_versionid_currencycode");
+                    b.HasIndex("ProductUid")
+                        .HasDatabaseName("ix_relationship_productuid");
 
                     b.ToTable("relationship", (string)null);
                 });
@@ -486,25 +468,15 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("controllingoption");
 
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("currencycode");
-
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("sku");
-
-                    b.Property<long>("VersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("versionid");
+                    b.Property<int>("ProductUid")
+                        .HasColumnType("integer")
+                        .HasColumnName("productuid");
 
                     b.HasKey("Id")
                         .HasName("pk_showandhide");
 
-                    b.HasIndex("Sku", "VersionId", "CurrencyCode")
-                        .HasDatabaseName("ix_showandhide_sku_versionid_currencycode");
+                    b.HasIndex("ProductUid")
+                        .HasDatabaseName("ix_showandhide_productuid");
 
                     b.ToTable("showandhide", (string)null);
                 });
@@ -513,10 +485,10 @@ namespace ProductsMicroservice.Migrations
                 {
                     b.HasOne("ProductsMicroservice.FullRelational.Product", null)
                         .WithMany("Categories")
-                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
+                        .HasForeignKey("ProductUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_category_products_sku_versionid_currencycode");
+                        .HasConstraintName("fk_category_products_productuid");
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.Image", "CustomizationTemplate", b1 =>
                         {
@@ -545,10 +517,10 @@ namespace ProductsMicroservice.Migrations
                 {
                     b.HasOne("ProductsMicroservice.FullRelational.Product", null)
                         .WithMany("Fields")
-                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
+                        .HasForeignKey("ProductUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_field_products_sku_versionid_currencycode");
+                        .HasConstraintName("fk_field_products_productuid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Label", b =>
@@ -675,74 +647,53 @@ namespace ProductsMicroservice.Migrations
                 {
                     b.OwnsOne("ProductsMicroservice.FullRelational.Family", "Family", b1 =>
                         {
-                            b1.Property<string>("ProductSku")
-                                .HasColumnType("text");
-
-                            b1.Property<long>("ProductVersionId")
-                                .HasColumnType("bigint");
-
-                            b1.Property<string>("ProductCurrencyCode")
-                                .HasColumnType("text");
+                            b1.Property<int>("ProductUid")
+                                .HasColumnType("integer")
+                                .HasColumnName("uid");
 
                             b1.Property<int>("Id")
-                                .HasColumnType("integer");
+                                .HasColumnType("integer")
+                                .HasColumnName("family_id");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasColumnType("text");
+                                .HasColumnType("text")
+                                .HasColumnName("family_name");
 
-                            b1.HasKey("ProductSku", "ProductVersionId", "ProductCurrencyCode");
+                            b1.HasKey("ProductUid");
 
                             b1.ToTable("products");
 
-                            b1.ToJson("family");
-
                             b1.WithOwner()
-                                .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
-                                .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                .HasForeignKey("ProductUid")
+                                .HasConstraintName("fk_products_products_uid");
                         });
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.Metadata", "Metadata", b1 =>
                         {
-                            b1.Property<string>("ProductSku")
-                                .HasColumnType("text")
-                                .HasColumnName("sku");
-
-                            b1.Property<long>("ProductVersionId")
-                                .HasColumnType("bigint")
-                                .HasColumnName("versionid");
-
-                            b1.Property<string>("ProductCurrencyCode")
-                                .HasColumnType("text")
-                                .HasColumnName("currencycode");
+                            b1.Property<int>("ProductUid")
+                                .HasColumnType("integer")
+                                .HasColumnName("uid");
 
                             b1.Property<string>("SchemaVersion")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("metadata_schemaversion");
 
-                            b1.HasKey("ProductSku", "ProductVersionId", "ProductCurrencyCode");
+                            b1.HasKey("ProductUid");
 
                             b1.ToTable("products");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
-                                .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                .HasForeignKey("ProductUid")
+                                .HasConstraintName("fk_products_products_uid");
                         });
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.ProductMedia", "Media", b1 =>
                         {
-                            b1.Property<string>("ProductSku")
-                                .HasColumnType("text")
-                                .HasColumnName("sku");
-
-                            b1.Property<long>("ProductVersionId")
-                                .HasColumnType("bigint")
-                                .HasColumnName("versionid");
-
-                            b1.Property<string>("ProductCurrencyCode")
-                                .HasColumnType("text")
-                                .HasColumnName("currencycode");
+                            b1.Property<int>("ProductUid")
+                                .HasColumnType("integer")
+                                .HasColumnName("uid");
 
                             b1.Property<int?>("DefaultItemId")
                                 .HasColumnType("integer")
@@ -752,27 +703,19 @@ namespace ProductsMicroservice.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("media_overlayitemid");
 
-                            b1.HasKey("ProductSku", "ProductVersionId", "ProductCurrencyCode");
+                            b1.HasKey("ProductUid");
 
                             b1.ToTable("products");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
-                                .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                .HasForeignKey("ProductUid")
+                                .HasConstraintName("fk_products_products_uid");
 
                             b1.OwnsMany("ProductsMicroservice.FullRelational.DigitalAsset", "Items", b2 =>
                                 {
-                                    b2.Property<string>("Sku")
-                                        .HasColumnType("text")
-                                        .HasColumnName("sku");
-
-                                    b2.Property<long>("VersionId")
-                                        .HasColumnType("bigint")
-                                        .HasColumnName("versionid");
-
-                                    b2.Property<string>("CurrencyCode")
-                                        .HasColumnType("text")
-                                        .HasColumnName("currencycode");
+                                    b2.Property<int>("ProductUid")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("productuid");
 
                                     b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
@@ -800,57 +743,41 @@ namespace ProductsMicroservice.Migrations
                                         .HasColumnType("text")
                                         .HasColumnName("type");
 
-                                    b2.HasKey("Sku", "VersionId", "CurrencyCode", "Id")
+                                    b2.HasKey("ProductUid", "Id")
                                         .HasName("pk_digitalasset");
 
-                                    b2.HasIndex("Sku", "VersionId", "CurrencyCode")
-                                        .HasDatabaseName("ix_digitalasset_sku_versionid_currencycode");
+                                    b2.HasIndex("ProductUid")
+                                        .HasDatabaseName("ix_digitalasset_productuid");
 
                                     b2.ToTable("digitalasset", (string)null);
 
                                     b2.WithOwner("Media")
-                                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
-                                        .HasConstraintName("fk_digitalasset_products_sku_versionid_currencycode");
+                                        .HasForeignKey("ProductUid")
+                                        .HasConstraintName("fk_digitalasset_products_productuid");
 
                                     b2.OwnsOne("ProductsMicroservice.FullRelational.CdnImageDimensions", "CdnImages", b3 =>
                                         {
-                                            b3.Property<string>("DigitalAssetSku")
-                                                .HasColumnType("text")
-                                                .HasColumnName("sku");
-
-                                            b3.Property<long>("DigitalAssetVersionId")
-                                                .HasColumnType("bigint")
-                                                .HasColumnName("versionid");
-
-                                            b3.Property<string>("DigitalAssetCurrencyCode")
-                                                .HasColumnType("text")
-                                                .HasColumnName("currencycode");
+                                            b3.Property<int>("DigitalAssetProductUid")
+                                                .HasColumnType("integer")
+                                                .HasColumnName("productuid");
 
                                             b3.Property<int>("DigitalAssetId")
                                                 .HasColumnType("integer")
                                                 .HasColumnName("id");
 
-                                            b3.HasKey("DigitalAssetSku", "DigitalAssetVersionId", "DigitalAssetCurrencyCode", "DigitalAssetId");
+                                            b3.HasKey("DigitalAssetProductUid", "DigitalAssetId");
 
                                             b3.ToTable("digitalasset");
 
                                             b3.WithOwner()
-                                                .HasForeignKey("DigitalAssetSku", "DigitalAssetVersionId", "DigitalAssetCurrencyCode", "DigitalAssetId")
-                                                .HasConstraintName("fk_digitalasset_digitalasset_sku_versionid_currencycode_id");
+                                                .HasForeignKey("DigitalAssetProductUid", "DigitalAssetId")
+                                                .HasConstraintName("fk_digitalasset_digitalasset_productuid_id");
 
                                             b3.OwnsOne("ProductsMicroservice.FullRelational.CdnImage", "Medium", b4 =>
                                                 {
-                                                    b4.Property<string>("CdnImageDimensionsDigitalAssetSku")
-                                                        .HasColumnType("text")
-                                                        .HasColumnName("sku");
-
-                                                    b4.Property<long>("CdnImageDimensionsDigitalAssetVersionId")
-                                                        .HasColumnType("bigint")
-                                                        .HasColumnName("versionid");
-
-                                                    b4.Property<string>("CdnImageDimensionsDigitalAssetCurrencyCode")
-                                                        .HasColumnType("text")
-                                                        .HasColumnName("currencycode");
+                                                    b4.Property<int>("CdnImageDimensionsDigitalAssetProductUid")
+                                                        .HasColumnType("integer")
+                                                        .HasColumnName("productuid");
 
                                                     b4.Property<int>("CdnImageDimensionsDigitalAssetId")
                                                         .HasColumnType("integer")
@@ -869,28 +796,20 @@ namespace ProductsMicroservice.Migrations
                                                         .HasColumnType("integer")
                                                         .HasColumnName("cdnimages_medium_width");
 
-                                                    b4.HasKey("CdnImageDimensionsDigitalAssetSku", "CdnImageDimensionsDigitalAssetVersionId", "CdnImageDimensionsDigitalAssetCurrencyCode", "CdnImageDimensionsDigitalAssetId");
+                                                    b4.HasKey("CdnImageDimensionsDigitalAssetProductUid", "CdnImageDimensionsDigitalAssetId");
 
                                                     b4.ToTable("digitalasset");
 
                                                     b4.WithOwner()
-                                                        .HasForeignKey("CdnImageDimensionsDigitalAssetSku", "CdnImageDimensionsDigitalAssetVersionId", "CdnImageDimensionsDigitalAssetCurrencyCode", "CdnImageDimensionsDigitalAssetId")
-                                                        .HasConstraintName("fk_digitalasset_digitalasset_sku_versionid_currencycode_id");
+                                                        .HasForeignKey("CdnImageDimensionsDigitalAssetProductUid", "CdnImageDimensionsDigitalAssetId")
+                                                        .HasConstraintName("fk_digitalasset_digitalasset_productuid_id");
                                                 });
 
                                             b3.OwnsOne("ProductsMicroservice.FullRelational.CdnImage", "Original", b4 =>
                                                 {
-                                                    b4.Property<string>("CdnImageDimensionsDigitalAssetSku")
-                                                        .HasColumnType("text")
-                                                        .HasColumnName("sku");
-
-                                                    b4.Property<long>("CdnImageDimensionsDigitalAssetVersionId")
-                                                        .HasColumnType("bigint")
-                                                        .HasColumnName("versionid");
-
-                                                    b4.Property<string>("CdnImageDimensionsDigitalAssetCurrencyCode")
-                                                        .HasColumnType("text")
-                                                        .HasColumnName("currencycode");
+                                                    b4.Property<int>("CdnImageDimensionsDigitalAssetProductUid")
+                                                        .HasColumnType("integer")
+                                                        .HasColumnName("productuid");
 
                                                     b4.Property<int>("CdnImageDimensionsDigitalAssetId")
                                                         .HasColumnType("integer")
@@ -909,13 +828,13 @@ namespace ProductsMicroservice.Migrations
                                                         .HasColumnType("integer")
                                                         .HasColumnName("cdnimages_original_width");
 
-                                                    b4.HasKey("CdnImageDimensionsDigitalAssetSku", "CdnImageDimensionsDigitalAssetVersionId", "CdnImageDimensionsDigitalAssetCurrencyCode", "CdnImageDimensionsDigitalAssetId");
+                                                    b4.HasKey("CdnImageDimensionsDigitalAssetProductUid", "CdnImageDimensionsDigitalAssetId");
 
                                                     b4.ToTable("digitalasset");
 
                                                     b4.WithOwner()
-                                                        .HasForeignKey("CdnImageDimensionsDigitalAssetSku", "CdnImageDimensionsDigitalAssetVersionId", "CdnImageDimensionsDigitalAssetCurrencyCode", "CdnImageDimensionsDigitalAssetId")
-                                                        .HasConstraintName("fk_digitalasset_digitalasset_sku_versionid_currencycode_id");
+                                                        .HasForeignKey("CdnImageDimensionsDigitalAssetProductUid", "CdnImageDimensionsDigitalAssetId")
+                                                        .HasConstraintName("fk_digitalasset_digitalasset_productuid_id");
                                                 });
 
                                             b3.Navigation("Medium");
@@ -925,17 +844,9 @@ namespace ProductsMicroservice.Migrations
 
                                     b2.OwnsOne("ProductsMicroservice.FullRelational.WistiaVideo", "ThreeSixtyWistiaVideo", b3 =>
                                         {
-                                            b3.Property<string>("DigitalAssetSku")
-                                                .HasColumnType("text")
-                                                .HasColumnName("sku");
-
-                                            b3.Property<long>("DigitalAssetVersionId")
-                                                .HasColumnType("bigint")
-                                                .HasColumnName("versionid");
-
-                                            b3.Property<string>("DigitalAssetCurrencyCode")
-                                                .HasColumnType("text")
-                                                .HasColumnName("currencycode");
+                                            b3.Property<int>("DigitalAssetProductUid")
+                                                .HasColumnType("integer")
+                                                .HasColumnName("productuid");
 
                                             b3.Property<int>("DigitalAssetId")
                                                 .HasColumnType("integer")
@@ -946,28 +857,20 @@ namespace ProductsMicroservice.Migrations
                                                 .HasColumnType("text")
                                                 .HasColumnName("threesixtywistiavideo_key");
 
-                                            b3.HasKey("DigitalAssetSku", "DigitalAssetVersionId", "DigitalAssetCurrencyCode", "DigitalAssetId");
+                                            b3.HasKey("DigitalAssetProductUid", "DigitalAssetId");
 
                                             b3.ToTable("digitalasset");
 
                                             b3.WithOwner()
-                                                .HasForeignKey("DigitalAssetSku", "DigitalAssetVersionId", "DigitalAssetCurrencyCode", "DigitalAssetId")
-                                                .HasConstraintName("fk_digitalasset_digitalasset_sku_versionid_currencycode_id");
+                                                .HasForeignKey("DigitalAssetProductUid", "DigitalAssetId")
+                                                .HasConstraintName("fk_digitalasset_digitalasset_productuid_id");
                                         });
 
                                     b2.OwnsOne("ProductsMicroservice.FullRelational.WistiaVideo", "WistiaVideo", b3 =>
                                         {
-                                            b3.Property<string>("DigitalAssetSku")
-                                                .HasColumnType("text")
-                                                .HasColumnName("sku");
-
-                                            b3.Property<long>("DigitalAssetVersionId")
-                                                .HasColumnType("bigint")
-                                                .HasColumnName("versionid");
-
-                                            b3.Property<string>("DigitalAssetCurrencyCode")
-                                                .HasColumnType("text")
-                                                .HasColumnName("currencycode");
+                                            b3.Property<int>("DigitalAssetProductUid")
+                                                .HasColumnType("integer")
+                                                .HasColumnName("productuid");
 
                                             b3.Property<int>("DigitalAssetId")
                                                 .HasColumnType("integer")
@@ -978,13 +881,13 @@ namespace ProductsMicroservice.Migrations
                                                 .HasColumnType("text")
                                                 .HasColumnName("wistiavideo_key");
 
-                                            b3.HasKey("DigitalAssetSku", "DigitalAssetVersionId", "DigitalAssetCurrencyCode", "DigitalAssetId");
+                                            b3.HasKey("DigitalAssetProductUid", "DigitalAssetId");
 
                                             b3.ToTable("digitalasset");
 
                                             b3.WithOwner()
-                                                .HasForeignKey("DigitalAssetSku", "DigitalAssetVersionId", "DigitalAssetCurrencyCode", "DigitalAssetId")
-                                                .HasConstraintName("fk_digitalasset_digitalasset_sku_versionid_currencycode_id");
+                                                .HasForeignKey("DigitalAssetProductUid", "DigitalAssetId")
+                                                .HasConstraintName("fk_digitalasset_digitalasset_productuid_id");
                                         });
 
                                     b2.Navigation("CdnImages")
@@ -1002,17 +905,9 @@ namespace ProductsMicroservice.Migrations
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.ProductPricing", "Pricing", b1 =>
                         {
-                            b1.Property<string>("ProductSku")
-                                .HasColumnType("text")
-                                .HasColumnName("sku");
-
-                            b1.Property<long>("ProductVersionId")
-                                .HasColumnType("bigint")
-                                .HasColumnName("versionid");
-
-                            b1.Property<string>("ProductCurrencyCode")
-                                .HasColumnType("text")
-                                .HasColumnName("currencycode");
+                            b1.Property<int>("ProductUid")
+                                .HasColumnType("integer")
+                                .HasColumnName("uid");
 
                             b1.Property<decimal?>("BasePrice")
                                 .HasColumnType("numeric")
@@ -1039,113 +934,96 @@ namespace ProductsMicroservice.Migrations
                                 .HasColumnType("numeric")
                                 .HasColumnName("pricing_supplierprice");
 
-                            b1.HasKey("ProductSku", "ProductVersionId", "ProductCurrencyCode");
+                            b1.HasKey("ProductUid");
 
                             b1.ToTable("products");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
-                                .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                .HasForeignKey("ProductUid")
+                                .HasConstraintName("fk_products_products_uid");
                         });
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.ProductionInfo", "ProductionInfo", b1 =>
                         {
-                            b1.Property<string>("ProductSku")
-                                .HasColumnType("text");
-
-                            b1.Property<long>("ProductVersionId")
-                                .HasColumnType("bigint");
-
-                            b1.Property<string>("ProductCurrencyCode")
-                                .HasColumnType("text");
+                            b1.Property<int>("ProductUid")
+                                .HasColumnType("integer")
+                                .HasColumnName("uid");
 
                             b1.Property<bool>("IsNonEnglishInscription")
-                                .HasColumnType("boolean");
+                                .HasColumnType("boolean")
+                                .HasColumnName("productioninfo_isnonenglishinscription");
 
                             b1.Property<string>("ProductSize")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("text")
+                                .HasColumnName("productioninfo_productsize");
 
                             b1.Property<int>("SupplierId")
-                                .HasColumnType("integer");
+                                .HasColumnType("integer")
+                                .HasColumnName("productioninfo_supplierid");
 
                             b1.Property<string>("SupplierProductId")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("text")
+                                .HasColumnName("productioninfo_supplierproductid");
 
                             b1.Property<decimal>("Weight")
-                                .HasColumnType("numeric");
+                                .HasColumnType("numeric")
+                                .HasColumnName("productioninfo_weight");
 
-                            b1.HasKey("ProductSku", "ProductVersionId", "ProductCurrencyCode");
+                            b1.HasKey("ProductUid");
 
                             b1.ToTable("products");
 
-                            b1.ToJson("productioninfo");
-
                             b1.WithOwner()
-                                .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
-                                .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                .HasForeignKey("ProductUid")
+                                .HasConstraintName("fk_products_products_uid");
 
                             b1.OwnsOne("ProductsMicroservice.FullRelational.BoxSize", "BoxSize", b2 =>
                                 {
-                                    b2.Property<string>("ProductionInfoProductSku")
-                                        .HasColumnType("text");
-
-                                    b2.Property<long>("ProductionInfoProductVersionId")
-                                        .HasColumnType("bigint");
-
-                                    b2.Property<string>("ProductionInfoProductCurrencyCode")
-                                        .HasColumnType("text");
+                                    b2.Property<int>("ProductionInfoProductUid")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("uid");
 
                                     b2.Property<int>("Id")
-                                        .HasColumnType("integer");
+                                        .HasColumnType("integer")
+                                        .HasColumnName("productioninfo_boxsize_id");
 
                                     b2.Property<string>("Name")
                                         .IsRequired()
-                                        .HasMaxLength(50)
-                                        .HasColumnType("character varying(50)");
+                                        .HasColumnType("text")
+                                        .HasColumnName("productioninfo_boxsize_name");
 
-                                    b2.HasKey("ProductionInfoProductSku", "ProductionInfoProductVersionId", "ProductionInfoProductCurrencyCode");
+                                    b2.HasKey("ProductionInfoProductUid");
 
                                     b2.ToTable("products");
 
-                                    b2.ToJson("productioninfo");
-
                                     b2.WithOwner()
-                                        .HasForeignKey("ProductionInfoProductSku", "ProductionInfoProductVersionId", "ProductionInfoProductCurrencyCode")
-                                        .HasConstraintName("fk_products_products_productioninfoproductsku_productioninfopr~");
+                                        .HasForeignKey("ProductionInfoProductUid")
+                                        .HasConstraintName("fk_products_products_uid");
                                 });
 
                             b1.OwnsOne("ProductsMicroservice.FullRelational.ProductSizeHsCode", "ProductSizeHsCode", b2 =>
                                 {
-                                    b2.Property<string>("ProductionInfoProductSku")
-                                        .HasColumnType("text");
-
-                                    b2.Property<long>("ProductionInfoProductVersionId")
-                                        .HasColumnType("bigint");
-
-                                    b2.Property<string>("ProductionInfoProductCurrencyCode")
-                                        .HasColumnType("text");
+                                    b2.Property<int>("ProductionInfoProductUid")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("uid");
 
                                     b2.Property<int>("Id")
-                                        .HasColumnType("integer");
+                                        .HasColumnType("integer")
+                                        .HasColumnName("productioninfo_productsizehscode_id");
 
                                     b2.Property<string>("Name")
                                         .IsRequired()
-                                        .HasMaxLength(50)
-                                        .HasColumnType("character varying(50)");
+                                        .HasColumnType("text")
+                                        .HasColumnName("productioninfo_productsizehscode_name");
 
-                                    b2.HasKey("ProductionInfoProductSku", "ProductionInfoProductVersionId", "ProductionInfoProductCurrencyCode");
+                                    b2.HasKey("ProductionInfoProductUid");
 
                                     b2.ToTable("products");
 
-                                    b2.ToJson("productioninfo");
-
                                     b2.WithOwner()
-                                        .HasForeignKey("ProductionInfoProductSku", "ProductionInfoProductVersionId", "ProductionInfoProductCurrencyCode")
-                                        .HasConstraintName("fk_products_products_productioninfoproductsku_productioninfopr~");
+                                        .HasForeignKey("ProductionInfoProductUid")
+                                        .HasConstraintName("fk_products_products_uid");
                                 });
 
                             b1.Navigation("BoxSize");
@@ -1155,17 +1033,9 @@ namespace ProductsMicroservice.Migrations
 
                     b.OwnsOne("ProductsMicroservice.FullRelational.Site", "Site", b1 =>
                         {
-                            b1.Property<string>("ProductSku")
-                                .HasColumnType("text")
-                                .HasColumnName("sku");
-
-                            b1.Property<long>("ProductVersionId")
-                                .HasColumnType("bigint")
-                                .HasColumnName("versionid");
-
-                            b1.Property<string>("ProductCurrencyCode")
-                                .HasColumnType("text")
-                                .HasColumnName("currencycode");
+                            b1.Property<int>("ProductUid")
+                                .HasColumnType("integer")
+                                .HasColumnName("uid");
 
                             b1.Property<int>("Id")
                                 .HasColumnType("integer")
@@ -1176,27 +1046,19 @@ namespace ProductsMicroservice.Migrations
                                 .HasColumnType("text")
                                 .HasColumnName("site_name");
 
-                            b1.HasKey("ProductSku", "ProductVersionId", "ProductCurrencyCode");
+                            b1.HasKey("ProductUid");
 
                             b1.ToTable("products");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductSku", "ProductVersionId", "ProductCurrencyCode")
-                                .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                .HasForeignKey("ProductUid")
+                                .HasConstraintName("fk_products_products_uid");
 
                             b1.OwnsOne("ProductsMicroservice.FullRelational.Currency", "Currency", b2 =>
                                 {
-                                    b2.Property<string>("SiteProductSku")
-                                        .HasColumnType("text")
-                                        .HasColumnName("sku");
-
-                                    b2.Property<long>("SiteProductVersionId")
-                                        .HasColumnType("bigint")
-                                        .HasColumnName("versionid");
-
-                                    b2.Property<string>("SiteProductCurrencyCode")
-                                        .HasColumnType("text")
-                                        .HasColumnName("currencycode");
+                                    b2.Property<int>("SiteProductUid")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("uid");
 
                                     b2.Property<string>("Code")
                                         .IsRequired()
@@ -1213,13 +1075,13 @@ namespace ProductsMicroservice.Migrations
                                         .HasColumnType("text")
                                         .HasColumnName("site_currency_symbol");
 
-                                    b2.HasKey("SiteProductSku", "SiteProductVersionId", "SiteProductCurrencyCode");
+                                    b2.HasKey("SiteProductUid");
 
                                     b2.ToTable("products");
 
                                     b2.WithOwner()
-                                        .HasForeignKey("SiteProductSku", "SiteProductVersionId", "SiteProductCurrencyCode")
-                                        .HasConstraintName("fk_products_products_sku_versionid_currencycode");
+                                        .HasForeignKey("SiteProductUid")
+                                        .HasConstraintName("fk_products_products_uid");
                                 });
 
                             b1.Navigation("Currency")
@@ -1248,10 +1110,10 @@ namespace ProductsMicroservice.Migrations
                 {
                     b.HasOne("ProductsMicroservice.FullRelational.Product", null)
                         .WithMany("Relationships")
-                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
+                        .HasForeignKey("ProductUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_relationship_products_sku_versionid_currencycode");
+                        .HasConstraintName("fk_relationship_products_productuid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.RelationshipProduct", b =>
@@ -1268,10 +1130,10 @@ namespace ProductsMicroservice.Migrations
                 {
                     b.HasOne("ProductsMicroservice.FullRelational.Product", null)
                         .WithMany("ShowAndHides")
-                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
+                        .HasForeignKey("ProductUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_showandhide_products_sku_versionid_currencycode");
+                        .HasConstraintName("fk_showandhide_products_productuid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
