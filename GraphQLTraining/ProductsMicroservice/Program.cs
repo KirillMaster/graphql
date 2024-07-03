@@ -13,7 +13,7 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
             b =>
             {
                 b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-                b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                //b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             })
         .UseLowerCaseNamingConvention());
 
@@ -31,7 +31,7 @@ builder.Services
     // .PublishSchemaDefinition(c => c
     //     .SetName("catalogproduct")
     //     .PublishToRedis("Demo", 
-    //         sp => sp.GetRequiredService<ConnectionMultiplexer>()));
+    //         sp => sp.GetRequiredService<ConnectionMultiplexer>())); 
 
 var app = builder.Build();
 

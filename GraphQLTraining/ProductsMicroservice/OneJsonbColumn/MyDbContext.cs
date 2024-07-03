@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductsMicroservice.FullRelational;
 using ProductsMicroservice.ManyJsonbColumns;
+using Category = ProductsMicroservice.FullRelational.Category;
+using Label = ProductsMicroservice.FullRelational.Label;
 using Ribbon = ProductsMicroservice.FullRelational.Ribbon;
 
 //using ProductsMicroservice.ManyJsonbColumns;
@@ -88,7 +90,6 @@ public class MyDbContext : DbContext
 
                     item.OwnsOne(c => c.CdnImages, cdnImages =>
                     {
-                        cdnImages.Property(x => x.Id).IsRequired();
                         cdnImages.OwnsOne(c => c.Medium);
                         cdnImages.OwnsOne(c => c.Original);
                     });
@@ -97,5 +98,51 @@ public class MyDbContext : DbContext
                     item.OwnsOne(c => c.ThreeSixtyWistiaVideo);
                 });
             });
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Categories)
+            .WithOne()
+            .HasForeignKey(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+        modelBuilder.Entity<Category>()
+            .HasIndex(x => new { x.Sku, x.VersionId, x.CurrencyCode });
+
+        modelBuilder.Entity<Category>()
+            .HasKey(x => x.Uid);
+        
+        modelBuilder.Entity<Category>()
+            .HasIndex(x => x.Uid);
+
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Options)
+            .WithOne()
+            .HasForeignKey(x => x.CategoryUid);
+
+        modelBuilder.Entity<Category>()
+            .OwnsOne(c => c.CustomizationTemplate);
+
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Labels)
+            .WithOne()
+            .HasForeignKey(x => x.CategoryUid);
+
+        modelBuilder.Entity<Label>()
+            .HasIndex(x => x.CategoryUid);
+
+        modelBuilder.Entity<Label>()
+            .HasKey(x => new { x.Id, x.CategoryUid });
+
+        modelBuilder.Entity<ProductsMicroservice.FullRelational.Option>()
+            .HasKey(x => new { x.Id, x.CategoryUid });
+
+        modelBuilder.Entity<ProductsMicroservice.FullRelational.Option>()
+            .HasIndex(x => x.CategoryUid);
+
+        modelBuilder.Entity<ProductsMicroservice.FullRelational.Option>()
+            .OwnsOne(c => c.Image);
+        modelBuilder.Entity<ProductsMicroservice.FullRelational.Option>()
+            .OwnsOne(c => c.RelatedProduct, relatedProduct =>
+            {
+                relatedProduct.OwnsOne(c => c.Pricing);
+            });
+
     }
 }

@@ -19,11 +19,17 @@ public class Repository
 
     public void Insert()
     {
-        CleanDb();
+      //  CleanDb();
         for (int i = 0; i < 50000; i++)
         {
             InsertInternal();
+            if (i % 1000 == 0)
+            {
+                dbContext.SaveChanges();
+            }
+            Console.WriteLine(i);
         }
+ 
     }
 
     private void InsertInternal()
@@ -34,13 +40,13 @@ public class Repository
         var random = new Random();
         deserialized.CurrencyCode = GetRandomCurrency();
         deserialized.Sku = GenerateRandomString(12);
-        deserialized.VersionId =  random.NextInt64();
+        deserialized.VersionId =  random.NextInt64(long.MaxValue);
         deserialized.ProductRibbons.ForEach((x )=>
         {
             x.Sku = deserialized.Sku;
             x.VersionId = deserialized.VersionId;
             x.CurrencyCode = deserialized.CurrencyCode;
-            x.Id = rand.Next(10000000);
+            x.Id = rand.Next(int.MaxValue);
         });
         
         deserialized.Media.Items.ForEach(x =>
@@ -48,11 +54,20 @@ public class Repository
             x.Sku = deserialized.Sku;
             x.VersionId = deserialized.VersionId;
             x.CurrencyCode = deserialized.CurrencyCode;
-            x.Id = rand.Next(100000000);
+            x.Id = rand.Next(int.MaxValue);
         });
-     
+
+        foreach (var category in deserialized.Categories)
+        {
+            category.Uid = GenerateRandomString(24);
+            if (category.Options != null)
+                foreach (var option in category.Options)
+                {
+                    option.CategoryUid = category.Uid;
+                }
+        }
+
         dbContext.Products.Add(deserialized);
-        dbContext.SaveChanges();
     }
 
     private static string GenerateRandomString(int length)

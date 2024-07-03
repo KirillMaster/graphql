@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductsMicroservice;
@@ -11,9 +12,11 @@ using ProductsMicroservice;
 namespace ProductsMicroservice.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240702152627_InitialCreate13")]
+    partial class InitialCreate13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,199 +24,6 @@ namespace ProductsMicroservice.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
-                {
-                    b.Property<string>("Uid")
-                        .HasColumnType("text")
-                        .HasColumnName("uid");
-
-                    b.Property<string>("CartName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cartname");
-
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("currencycode");
-
-                    b.Property<string>("DisplayType")
-                        .HasColumnType("text")
-                        .HasColumnName("displaytype");
-
-                    b.Property<string>("EnglishCartName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("englishcartname");
-
-                    b.Property<string>("EnglishName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("englishname");
-
-                    b.Property<int?>("GlossaryId")
-                        .HasColumnType("integer")
-                        .HasColumnName("glossaryid");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isactive");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isrequired");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer")
-                        .HasColumnName("order");
-
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("sku");
-
-                    b.Property<bool>("TextIsMultiline")
-                        .HasColumnType("boolean")
-                        .HasColumnName("textismultiline");
-
-                    b.Property<int?>("TextMaxLength")
-                        .HasColumnType("integer")
-                        .HasColumnName("textmaxlength");
-
-                    b.Property<int?>("TextMinLength")
-                        .HasColumnType("integer")
-                        .HasColumnName("textminlength");
-
-                    b.Property<string>("TextPlaceholder")
-                        .HasColumnType("text")
-                        .HasColumnName("textplaceholder");
-
-                    b.Property<int?>("TooltipId")
-                        .HasColumnType("integer")
-                        .HasColumnName("tooltipid");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("type");
-
-                    b.Property<long>("VersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("versionid");
-
-                    b.HasKey("Uid")
-                        .HasName("pk_category");
-
-                    b.HasIndex("Uid")
-                        .HasDatabaseName("ix_category_uid");
-
-                    b.HasIndex("Sku", "VersionId", "CurrencyCode")
-                        .HasDatabaseName("ix_category_sku_versionid_currencycode");
-
-                    b.ToTable("category", (string)null);
-                });
-
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Label", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("CategoryUid")
-                        .HasColumnType("text")
-                        .HasColumnName("categoryuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id", "CategoryUid")
-                        .HasName("pk_label");
-
-                    b.HasIndex("CategoryUid")
-                        .HasDatabaseName("ix_label_categoryuid");
-
-                    b.ToTable("label", (string)null);
-                });
-
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Option", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<string>("CategoryUid")
-                        .HasColumnType("text")
-                        .HasColumnName("categoryuid");
-
-                    b.Property<string>("CartDisplayType")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cartdisplaytype");
-
-                    b.Property<string>("CartName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cartname");
-
-                    b.Property<string>("EnglishCartName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("englishcartname");
-
-                    b.Property<string>("EnglishName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("englishname");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isactive");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isdefault");
-
-                    b.Property<bool>("IsPlaceholder")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isplaceholder");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer")
-                        .HasColumnName("order");
-
-                    b.Property<decimal>("PriceAdjustment")
-                        .HasColumnType("numeric")
-                        .HasColumnName("priceadjustment");
-
-                    b.Property<bool>("UsePriceAdjustmentInName")
-                        .HasColumnType("boolean")
-                        .HasColumnName("usepriceadjustmentinname");
-
-                    b.HasKey("Id", "CategoryUid")
-                        .HasName("pk_option");
-
-                    b.HasIndex("CategoryUid")
-                        .HasDatabaseName("ix_option_categoryuid");
-
-                    b.ToTable("option", (string)null);
-                });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Product", b =>
                 {
@@ -357,158 +167,6 @@ namespace ProductsMicroservice.Migrations
                         .HasDatabaseName("ix_ribbon_sku_versionid_currencycode");
 
                     b.ToTable("ribbon", (string)null);
-                });
-
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
-                {
-                    b.HasOne("ProductsMicroservice.FullRelational.Product", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("Sku", "VersionId", "CurrencyCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_category_products_sku_versionid_currencycode");
-
-                    b.OwnsOne("ProductsMicroservice.FullRelational.Image", "CustomizationTemplate", b1 =>
-                        {
-                            b1.Property<string>("CategoryUid")
-                                .HasColumnType("text")
-                                .HasColumnName("uid");
-
-                            b1.Property<string>("Url")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("customizationtemplate_url");
-
-                            b1.HasKey("CategoryUid");
-
-                            b1.ToTable("category");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CategoryUid")
-                                .HasConstraintName("fk_category_category_uid");
-                        });
-
-                    b.Navigation("CustomizationTemplate");
-                });
-
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Label", b =>
-                {
-                    b.HasOne("ProductsMicroservice.FullRelational.Category", null)
-                        .WithMany("Labels")
-                        .HasForeignKey("CategoryUid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_label_category_categoryuid");
-                });
-
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Option", b =>
-                {
-                    b.HasOne("ProductsMicroservice.FullRelational.Category", null)
-                        .WithMany("Options")
-                        .HasForeignKey("CategoryUid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_option_category_categoryuid");
-
-                    b.OwnsOne("ProductsMicroservice.FullRelational.Image", "Image", b1 =>
-                        {
-                            b1.Property<int>("OptionId")
-                                .HasColumnType("integer")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("OptionCategoryUid")
-                                .HasColumnType("text")
-                                .HasColumnName("categoryuid");
-
-                            b1.Property<string>("Url")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("image_url");
-
-                            b1.HasKey("OptionId", "OptionCategoryUid");
-
-                            b1.ToTable("option");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OptionId", "OptionCategoryUid")
-                                .HasConstraintName("fk_option_option_id_categoryuid");
-                        });
-
-                    b.OwnsOne("ProductsMicroservice.FullRelational.SwitchProduct", "RelatedProduct", b1 =>
-                        {
-                            b1.Property<int>("OptionId")
-                                .HasColumnType("integer")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("OptionCategoryUid")
-                                .HasColumnType("text")
-                                .HasColumnName("categoryuid");
-
-                            b1.Property<string[]>("ExcludedCountries")
-                                .HasColumnType("text[]")
-                                .HasColumnName("relatedproduct_excludedcountries");
-
-                            b1.Property<string>("FriendlyUrl")
-                                .HasColumnType("text")
-                                .HasColumnName("relatedproduct_friendlyurl");
-
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer")
-                                .HasColumnName("relatedproduct_id");
-
-                            b1.Property<int?>("ShortId")
-                                .HasColumnType("integer")
-                                .HasColumnName("relatedproduct_shortid");
-
-                            b1.Property<string>("Sku")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("relatedproduct_sku");
-
-                            b1.HasKey("OptionId", "OptionCategoryUid");
-
-                            b1.ToTable("option");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OptionId", "OptionCategoryUid")
-                                .HasConstraintName("fk_option_option_id_categoryuid");
-
-                            b1.OwnsOne("ProductsMicroservice.FullRelational.RelatedProductPricing", "Pricing", b2 =>
-                                {
-                                    b2.Property<int>("SwitchProductOptionId")
-                                        .HasColumnType("integer")
-                                        .HasColumnName("id");
-
-                                    b2.Property<string>("SwitchProductOptionCategoryUid")
-                                        .HasColumnType("text")
-                                        .HasColumnName("categoryuid");
-
-                                    b2.Property<decimal>("Price")
-                                        .HasColumnType("numeric")
-                                        .HasColumnName("relatedproduct_pricing_price");
-
-                                    b2.Property<string>("PricingType")
-                                        .IsRequired()
-                                        .HasColumnType("text")
-                                        .HasColumnName("relatedproduct_pricing_pricingtype");
-
-                                    b2.HasKey("SwitchProductOptionId", "SwitchProductOptionCategoryUid");
-
-                                    b2.ToTable("option");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("SwitchProductOptionId", "SwitchProductOptionCategoryUid")
-                                        .HasConstraintName("fk_option_option_id_categoryuid");
-                                });
-
-                            b1.Navigation("Pricing")
-                                .IsRequired();
-                        });
-
-                    b.Navigation("Image")
-                        .IsRequired();
-
-                    b.Navigation("RelatedProduct");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Product", b =>
@@ -938,17 +596,8 @@ namespace ProductsMicroservice.Migrations
                         .HasConstraintName("fk_ribbon_products_sku_versionid_currencycode");
                 });
 
-            modelBuilder.Entity("ProductsMicroservice.FullRelational.Category", b =>
-                {
-                    b.Navigation("Labels");
-
-                    b.Navigation("Options");
-                });
-
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Product", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("ProductRibbons");
                 });
 #pragma warning restore 612, 618

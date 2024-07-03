@@ -1,4 +1,6 @@
-﻿namespace ProductsMicroservice.FullRelational
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProductsMicroservice.FullRelational
 {
     public class Image
     {
@@ -9,7 +11,7 @@
     {
     }
 
-    public class Category
+    public class Category : ProductPrimaryKey
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
@@ -31,7 +33,8 @@
         public int? GlossaryId { get; set; }
         public Image? CustomizationTemplate { get; set; }
         public string Uid { get; set; } = null!;
-        public Dictionary<string, Validation> Validations { get; set; } = new();
+        //TODO::
+       // public Dictionary<string, Validation> Validations { get; set; } = new();
     }
 
     public class CdnImage
@@ -43,7 +46,6 @@
 
     public class CdnImageDimensions
     {
-        public int Id { get; set; }
         public CdnImage Original { get; set; } = null!;
         public CdnImage Medium { get; set; } = null!;
     }
@@ -65,6 +67,7 @@
         public string Alt { get; set; } = null!;
         public string Title { get; set; } = null!;
         public string Type { get; set; } = null!;
+        [Required]
         public CdnImageDimensions? CdnImages { get; set; }
         public WistiaVideo? WistiaVideo { get; set; }
         public WistiaVideo? ThreeSixtyWistiaVideo { get; set; }
@@ -109,6 +112,7 @@
 
     public class Label : IdName
     {
+        public string CategoryUid { get; set; }
     }
 
     public class Metadata
@@ -118,6 +122,9 @@
 
     public class Option
     {
+        //navigation
+        public string CategoryUid { get; set; }
+        
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string CartName { get; set; } = null!;
@@ -129,6 +136,7 @@
         public int Order { get; set; }
         public decimal PriceAdjustment { get; set; }
         public bool UsePriceAdjustmentInName { get; set; }
+        [Required]
         public Image? Image { get; set; }
         public SwitchProduct? RelatedProduct { get; set; }
         public string CartDisplayType { get; set; } = null!;
@@ -147,7 +155,7 @@
         public ProductionInfo? ProductionInfo { get; set; }
         public string? Url { get; set; }
         public string Name { get; set; } = null!;
-        // public List<Category> Categories { get; set; } = new();
+        public List<Category> Categories { get; set; } = new();
         // public List<ShowAndHide> ShowAndHides { get; set; } = new();
         // public List<Field> Fields { get; set; } = new();
         // public List<Relationship> Relationships { get; set; } = new();
