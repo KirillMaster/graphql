@@ -208,6 +208,7 @@ namespace ProductsMicroservice.FullRelational
     {
         public int? DefaultItemId { get; set; }
         public int? OverlayItemId { get; set; }
+        [UseFiltering]
         public List<DigitalAsset> Items { get; set; } = new();
     }
 
@@ -298,16 +299,29 @@ namespace ProductsMicroservice.FullRelational
         [UseProjection]
         public IQueryable<CategoryProduct> FilteredProducts(Guid categoryKey,  [Service] Repository repository, List<UserInputFilter> selectedFilters, int page)
         {
-            var selectedFiltersKeys = selectedFilters.Select(x => x.FacetName + "_" + x.SelectedFilter);
-            var pageSize = 5;
-            var count = (double)repository
-                .GetProductFacets().Count(pf => selectedFiltersKeys.Contains(pf.FieldName + "_" + pf.Value));
+            var pageSize = 40;
+
+            var categoryFacets = repository.GetFacets(categoryKey);
+
+
+            var searchByFilters = repository
+                .GetProductFacets()
+                .Where(x => x.CategoryId == categoryKey);
+
+            if (selectedFilters.Count > 0)
+            {
+                foreach (var filter in selectedFilters)
+                {
+                    searchByFilters = searchByFilters.Where(x => x.FieldName == filter.FacetName && x.Value == filter.SelectedFilter);
+                }
+            }
+
+            var count = searchByFilters.Count();
+            
             var pagesCount = (int)(count / pageSize);
-
-
-            return repository.GetProductFacets()
+            
+            return searchByFilters
                 .Include(x => x.CategoryProduct)
-                .Where(pf => selectedFiltersKeys.Contains(pf.FieldName + "_" + pf.Value))
                 .Select(x => x.CategoryProduct)
                 .OrderBy(x => x.BestSellersSortPosition)
                 .Skip(pageSize * page)

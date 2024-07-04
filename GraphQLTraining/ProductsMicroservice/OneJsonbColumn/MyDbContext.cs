@@ -276,5 +276,8 @@ public class MyDbContext : DbContext
             .HasOne(s => s.CategoryProduct) 
             .WithMany(c => c.ProductFacets) 
             .HasForeignKey(s => new {s.Sku ,s.CategoryId});
+
+        modelBuilder.Entity<ProductFacet>()
+            .HasIndex(x => new { x.FieldName, x.Value });
     }
 }

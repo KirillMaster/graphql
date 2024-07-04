@@ -20,37 +20,42 @@ public class Repository
 
     public void Insert()
     {
-        CleanDb();
+        //CleanDb();
         
         
-        for (int i = 0; i < 1000; i++)
-        {
-            try
-            {
-                InsertProducts();
-                if (i % 100 == 0)
-                {
-                    dbContext.SaveChanges();
-                }
-              
-                
+        // for (int i = 0; i < 30000; i++)
+        // {
+        //     try
+        //     {
+        //         InsertProducts();
+        //         if (i % 1000 == 0)
+        //         {
+        //             dbContext.SaveChanges();
+        //         }
+        //       
+        //         
+        //
+        //         Console.WriteLine(i);
+        //     }
+        //     catch (Exception)
+        //     {
+        //         
+        //     }
+        //    
+        // }
         
-                Console.WriteLine(i);
-            }
-            catch (Exception)
-            {
-                
-            }
-           
-        }
         
-        
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 300; i++)
         {
             try
             {
                 InsertCategories();
                 dbContext.SaveChanges();
+                // if (i % 100 == 0)
+                // {
+                //     dbContext.SaveChanges();
+                // }
+
             }
             catch (Exception ex)
             {
@@ -131,8 +136,8 @@ public class Repository
     {
         var productKeys = dbContext.Products.Select(x => new { x.Sku, x.VersionId, x.CurrencyCode }).ToList();
 
-        var facets = new string[] { "For Denis Mum", "For Shmulik Kids", "For Tamas baby" };
-        var filters = new string[] { "1 inscription", "2 inscription", "3 inscription" };
+        var facets = new string[] { "For Denis Mum", "For Shmulik Kids", "For Tamas baby", "For Someone", "Material", "SomeFacet" };
+        var filters = new string[] { "1 inscription", "2 inscription", "3 inscription", "Gold", "Silver", "Bronze", "Vermeil", "SomeFacet" };
 
         var categoryGuid = Guid.NewGuid();
         var rand = new Random();
@@ -159,6 +164,24 @@ public class Repository
                 CategoryLowerSubtitle = "lowerSubtitle",
                 SeoCategories = new List<SeoCategory>
                 {
+                    new SeoCategory
+                    {
+                        Name = "name",
+                        CategoryId = categoryGuid,
+                        UrlName = "urlName"
+                    },
+                    new SeoCategory
+                    {
+                        Name = "name",
+                        CategoryId = categoryGuid,
+                        UrlName = "urlName"
+                    },
+                    new SeoCategory
+                    {
+                        Name = "name",
+                        CategoryId = categoryGuid,
+                        UrlName = "urlName"
+                    },
                     new SeoCategory
                     {
                         Name = "name",
@@ -193,13 +216,29 @@ public class Repository
                     CategoryId = categoryGuid,
                     FieldName = facets[rand.Next(facets.Length)]
                 },
+                new Facet
+                {
+                    Id = rand.Next(int.MaxValue),
+                    Name = filters[rand.Next(filters.Length)],
+                    Position = rand.Next(100),
+                    CategoryId = categoryGuid,
+                    FieldName = facets[rand.Next(facets.Length)]
+                },
+                new Facet
+                {
+                    Id = rand.Next(int.MaxValue),
+                    Name = filters[rand.Next(filters.Length)],
+                    Position = rand.Next(100),
+                    CategoryId = categoryGuid,
+                    FieldName = facets[rand.Next(facets.Length)]
+                },
             },
         };
 
 
         var categoryProducts = new List<CategoryProduct>();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 200; i++)
         {
             var key = productKeys[rand.Next(productKeys.Count())];
             categoryProducts.Add(new CategoryProduct
@@ -235,11 +274,42 @@ public class Repository
                         Value = filters[rand.Next(filters.Length)],
                         CategoryId = categoryGuid,
                         FieldName = facets[2]
-                    }
+                    },
+                    new ProductFacet
+                    {
+                        Id = rand.Next(int.MaxValue),
+                        Sku = key.Sku,
+                        Value = filters[rand.Next(filters.Length)],
+                        CategoryId = categoryGuid,
+                        FieldName = facets[2]
+                    },
+                    new ProductFacet
+                    {
+                        Id = rand.Next(int.MaxValue),
+                        Sku = key.Sku,
+                        Value = filters[rand.Next(filters.Length)],
+                        CategoryId = categoryGuid,
+                        FieldName = facets[2]
+                    },
+                    new ProductFacet
+                    {
+                        Id = rand.Next(int.MaxValue),
+                        Sku = key.Sku,
+                        Value = filters[rand.Next(filters.Length)],
+                        CategoryId = categoryGuid,
+                        FieldName = facets[2]
+                    },
                 }
             });
         }
 
+
+        var duplicates = categoryProducts
+            .GroupBy(x => x.ProductSku)
+            .Where(x => x.Count() > 1)
+            .Select(x => x.Key);
+        
+        categoryProducts.RemoveAll(x => duplicates.Contains(x.ProductSku));
         category.ProductsInCategory = categoryProducts;
 
         dbContext.Categories.Add(category);

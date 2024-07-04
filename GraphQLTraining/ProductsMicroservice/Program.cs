@@ -13,7 +13,7 @@ builder.Services.AddPooledDbContextFactory<MyDbContext>(
             b =>
             {
                 b.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null); 
-                b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                //b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             })
         .UseLowerCaseNamingConvention());
 
@@ -39,7 +39,7 @@ app.MapGraphQL();
 
 
 var repo = app.Services.GetService<Repository>();
- // repo.Insert();
+ //repo.Insert();
 
 
 //
