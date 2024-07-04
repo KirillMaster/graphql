@@ -350,13 +350,6 @@ namespace ProductsMicroservice.FullRelational
                 })
                 .Select(x => x.ProductFacet.Sku);
             
-            // var sortPositions = dbProductsInCategory.Select(x => new
-            // {
-            //     x.ProductSku,
-            //     x.BestSellersSortPosition,
-            //     x.OnlineDateSortPosition
-            // }).Where(x => skus.Contains(x.ProductSku));
-                
 
             return mathcedProductsFacets.Where(x => skus.Contains(x.Sku))
                 .GroupBy(x => x.FieldName)
