@@ -21,6 +21,10 @@ public class MyDbContext : DbContext
      public DbSet<Product> Products { get; set; }
      public DbSet<Category> Categories { get; set; }
      
+     public DbSet<CategoryProduct> CategoryProducts { get; set; }
+     
+     public DbSet<ProductFacet> ProductFacets { get; set; }
+     
      public DbSet<Facet> Facets { get; set; }
      //public DbSet<CatalogProduct> ProductsSliced { get; set; }
 
@@ -267,7 +271,10 @@ public class MyDbContext : DbContext
 
         modelBuilder.Entity<ProductFacet>()
             .HasIndex(x => x.FieldName);
-
-
+        
+        modelBuilder.Entity<ProductFacet>()
+            .HasOne(s => s.CategoryProduct) 
+            .WithMany(c => c.ProductFacets) 
+            .HasForeignKey(s => new {s.Sku ,s.CategoryId});
     }
 }

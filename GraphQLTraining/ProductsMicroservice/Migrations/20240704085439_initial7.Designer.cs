@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductsMicroservice;
@@ -12,9 +13,11 @@ using ProductsMicroservice;
 namespace ProductsMicroservice.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240704085439_initial7")]
+    partial class initial7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -484,15 +487,15 @@ namespace ProductsMicroservice.Migrations
                         .HasColumnName("value");
 
                     b.HasKey("Id")
-                        .HasName("pk_productfacets");
+                        .HasName("pk_productfacet");
 
                     b.HasIndex("FieldName")
-                        .HasDatabaseName("ix_productfacets_fieldname");
+                        .HasDatabaseName("ix_productfacet_fieldname");
 
                     b.HasIndex("Sku", "CategoryId")
-                        .HasDatabaseName("ix_productfacets_sku_categoryid");
+                        .HasDatabaseName("ix_productfacet_sku_categoryid");
 
-                    b.ToTable("productfacets", (string)null);
+                    b.ToTable("productfacet", (string)null);
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Relationship", b =>
@@ -1547,7 +1550,7 @@ namespace ProductsMicroservice.Migrations
                         .HasForeignKey("Sku", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_productfacets_categoryproducts_sku_categoryid");
+                        .HasConstraintName("fk_productfacet_categoryproducts_sku_categoryid");
                 });
 
             modelBuilder.Entity("ProductsMicroservice.FullRelational.Relationship", b =>

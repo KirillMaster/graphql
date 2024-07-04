@@ -294,6 +294,25 @@ namespace ProductsMicroservice.FullRelational
         
     
         public List<CategoryProduct> ProductsInCategory { get; set; }
+
+        [UseProjection]
+        public IQueryable<CategoryProduct> FilteredProducts(Guid categoryKey,  [Service] Repository repository, List<UserInputFilter> selectedFilters, int page)
+        {
+            var selectedFiltersKeys = selectedFilters.Select(x => x.FacetName + "_" + x.SelectedFilter);
+            var pageSize = 5;
+            var count = (double)repository
+                .GetProductFacets().Count(pf => selectedFiltersKeys.Contains(pf.FieldName + "_" + pf.Value));
+            var pagesCount = (int)(count / pageSize);
+
+
+            return repository.GetProductFacets()
+                .Include(x => x.CategoryProduct)
+                .Where(pf => selectedFiltersKeys.Contains(pf.FieldName + "_" + pf.Value))
+                .Select(x => x.CategoryProduct)
+                .OrderBy(x => x.BestSellersSortPosition)
+                .Skip(pageSize * page)
+                .Take(pageSize);
+        }
    
         public List<Facet> Facets { get; set; }
         
@@ -310,7 +329,8 @@ namespace ProductsMicroservice.FullRelational
             var mathcedProductsFacets = dbProductsInCategory.SelectMany(product => product.ProductFacets) 
                 .Where(x => categoryFacets.Contains(x.FieldName))
                 .ToList();
-
+            
+            
             var skus = mathcedProductsFacets.Select(x => new
                 {
                     ProductFacet = x,
@@ -329,6 +349,14 @@ namespace ProductsMicroservice.FullRelational
                     return selectedFilters.Contains(x.UserInputFilter);
                 })
                 .Select(x => x.ProductFacet.Sku);
+            
+            // var sortPositions = dbProductsInCategory.Select(x => new
+            // {
+            //     x.ProductSku,
+            //     x.BestSellersSortPosition,
+            //     x.OnlineDateSortPosition
+            // }).Where(x => skus.Contains(x.ProductSku));
+                
 
             return mathcedProductsFacets.Where(x => skus.Contains(x.Sku))
                 .GroupBy(x => x.FieldName)
@@ -446,6 +474,8 @@ namespace ProductsMicroservice.FullRelational
     public class ProductFacet
     {
         public Guid CategoryId { get; set; }
+        
+        public CategoryProduct CategoryProduct { get; set; }
         public string Sku { get; set; }
         
         public int Id { get; set; }

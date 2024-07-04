@@ -290,6 +290,16 @@ public class Repository
         return dbContext.Categories;
     }
 
+    public IQueryable<CategoryProduct> GetCategoryProducts()
+    {
+        return dbContext.CategoryProducts;
+    }
+
+    public IQueryable<ProductFacet> GetProductFacets()
+    {
+        return dbContext.ProductFacets;
+    }
+
     public IQueryable<Facet> GetFacets(Guid categoryId)
     {
         return dbContext.Facets.Where(x => x.CategoryId == categoryId);
