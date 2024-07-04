@@ -297,65 +297,109 @@ namespace ProductsMicroservice.FullRelational
    
         public List<Facet> Facets { get; set; }
         
-        public IEnumerable<FacetInfo> GetCategoryFacets(Guid categoryKey,  [Service] Repository repository, List<UserInputFilter> selectedFilters )
+        public IEnumerable<FacetInfo> GetCategoryFacets(Guid categoryKey,  [Service] Repository repository, List<UserInputFilter> selectedFilters)
         {
-            var facets = repository.GetFacets(categoryKey).AsEnumerable();
+            var facets = repository.GetFacets(categoryKey).ToList();
             var dbProductsInCategory = repository.GetCategories().Where(x => x.CategoryExternalId == categoryKey)
                 .Include(x => x.ProductsInCategory)
                 .ThenInclude(x => x.ProductFacets)
                 .SelectMany(x => x.ProductsInCategory);
-            
-            return facets.SelectMany(categoryFacet =>
-            {
-                //берем все фасеты всех продуктов категории
-                var aggregates = dbProductsInCategory.SelectMany(product => product.ProductFacets) 
-                    .Where(x => x.FieldName == categoryFacet.FieldName)
-                    .AsEnumerable()
-                    .Where(x =>
-                    {
-                        var selectedFiltersForCurrentFacet =
-                            selectedFilters.Where(selectedFacet => selectedFacet.FacetName == x.FieldName)
-                                .ToList();
-                        
-                        if (!selectedFiltersForCurrentFacet.Any())
-                        {
-                            return false;
-                        }
-                        return selectedFiltersForCurrentFacet
-                            .Select(selectedFacetFilter => selectedFacetFilter.SelectedFilter)
-                            .Contains(x.Value);
 
-                    })
-                    //нам надо получить SKU продуктов, попавших под фильтр, а затем сделать группировку 
-                    .Select(x => x.Sku)
-                    .Distinct()
-                    .SelectMany(sku =>
+            var categoryFacets = facets.Select(x => x.FieldName);
+            
+            var mathcedProductsFacets = dbProductsInCategory.SelectMany(product => product.ProductFacets) 
+                .Where(x => categoryFacets.Contains(x.FieldName))
+                .ToList();
+
+            var skus = mathcedProductsFacets.Select(x => new
+                {
+                    ProductFacet = x,
+                    UserInputFilter = new UserInputFilter
                     {
-                        return dbProductsInCategory.FirstOrDefault(x => x.ProductSku == sku)?.ProductFacets;
-                    })
-                    .GroupBy(x => x.FieldName)
-                    //группируем по имени фасета
-                    .Select(x => new FacetInfo
+                        FacetName = x.FieldName,
+                        SelectedFilter = x.Value
+                    },
+                }).Where(x =>
+                {
+                    if (selectedFilters.Count == 0)
                     {
-                        Position = categoryFacet.Position,
-                        FieldName = categoryFacet.FieldName,
-                        FilterAggregates = x.GroupBy(facet => facet.Value).Select(grouping => new FilterDto
-                        {
-                            Name = x.Key,
-                            Count = x.Count()
-                        })/*.Where(filter => filter.Count > 0)*/.ToList()
-                    });
-                return aggregates;
-            }).AsEnumerable();
+                        return true;
+                    }
+                    
+                    return selectedFilters.Contains(x.UserInputFilter);
+                })
+                .Select(x => x.ProductFacet.Sku);
+
+            return mathcedProductsFacets.Where(x => skus.Contains(x.Sku))
+                .GroupBy(x => x.FieldName)
+                .Select(x => new FacetInfo
+                {
+                    Position = facets.FirstOrDefault(f => f.FieldName == x.Key).Position,
+                    FieldName = x.Key,
+                    FilterAggregates = x.GroupBy(facet => facet.Value).Select(grouping => new FilterDto
+                    {
+                        Name = grouping.Key,
+                        Count = grouping.Count()
+                    }).OrderBy(x => x.Name).ToList()
+                });
         }
     }
     
     //contract
-    public class UserInputFilter
+
+    public class UserInputFilter : IEquatable<UserInputFilter>
     {
         public string FacetName { get; set; }
         public string SelectedFilter { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as UserInputFilter);
+        }
+
+        public bool Equals(UserInputFilter other)
+        {
+            if (other == null) return false;
+            return string.Equals(FacetName, other.FacetName) && string.Equals(SelectedFilter, other.SelectedFilter);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked // Allow overflow, it's fine here
+            {
+                int hash = 17;
+                hash = hash * 23 + (FacetName != null ? FacetName.GetHashCode() : 0);
+                hash = hash * 23 + (SelectedFilter != null ? SelectedFilter.GetHashCode() : 0);
+                return hash;
+            }
+        }
+
+        public static bool operator ==(UserInputFilter left, UserInputFilter right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UserInputFilter left, UserInputFilter right)
+        {
+            return !(left == right);
+        }
     }
+    
 
     public class Content
     {
